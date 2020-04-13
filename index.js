@@ -30,7 +30,7 @@ const angles = clockHours.map(hour => {
   clockAngles.push(currAngle);
 });
 
-console.log(clockAngles);  
+console.log(clockAngles);
 
 
 
