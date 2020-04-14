@@ -4,28 +4,27 @@ import * as moment from 'moment';
 //Description: This is a small program to calculate matching angles for
 //cities between two codes. This version calculates those between EST and
 //PST with future versions moving away from hardcoded values and the ability
-//to coalucate matching angles between any timezones.catch
+//to calculate matching angles between any two timezones.
 //Author: Ashley Robinson
 
-//moment.js to return current time in HH:MM format
-let eastCoastTime = moment.format('LT');
-//assign number left of semicolon to hours, "" right to minutes
-const eastCoastHour = eastCoastTime.trim(arr[0]);
-const eastCoastMinute = eastCoastTime.trim(arr[1]);
-//Pacific Standard Time is 3 hours behind EST:
-let westCoastHour = eastCoastHour-3 +':'+eastCoastMinute;
-console.log(westCoastTime);
-const westCoastHour = westCoastTime.trim(arr[0]);
-const westCoastMinute = westCoastTime.trim(arr[1]);
-
-function calculateTheta() => {
+  //moment.js to return current time in HH:MM format
+  let eastCoastTime = moment.format('LT');
+  console.log(eastCoastTime);
+  //assign number left of semicolon to hours, "" right to minutes
+  const eastCoastHour = eastCoastTime.trim(arr[0]);
+  const eastCoastMinute = eastCoastTime.trim(arr[1]);
+  //Pacific Standard Time is 3 hours behind Eastern:
+  let westCoastHour = eastCoastHour-3 +':'+eastCoastMinute;
+  console.log(westCoastTime);
+  //no need to calculate west coast minutes since they're the same
+  const westCoastMinute = westCoastTime.trim(arr[1]);
 
   //each angle theta is calculated by subtracting the minuteHandValue
-  //in degrees from the hourHandValue
-
+  //in degrees from the hourHandValue. if this results in a negative
+  //value, 360 is added to the value.
   let eastCoastAngle = Object.keys(hourClockAngles[eastCoastHour]);
   let westCoastAngle = Object.keys(hourClockAngles[westCoastHour]);
-  //not differentiated between timezones since it is the same
+  //not differentiated between timezones since it is the same (lol)
   let minuteHandAngle = Object.keys(minuteClockAngles[eastCoastMinute]);
   console.log(hourHandValue);
 
@@ -37,11 +36,12 @@ function calculateTheta() => {
   //timezones especially if calculating all UTC values
   if (thetaEast < 0) {
     thetaEast += 360;
+    matchingAngleArray.push(time);
   }else if (thetaWest < 0) {
     thetaWest += 360;
+    matchingAngleArray.push(time);
   }
   return matchingAngleArray;
-  //from angles 0-360*
 }
 
 (function getMatchingAngles() => {
