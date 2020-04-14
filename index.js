@@ -64,7 +64,7 @@ function calculateTheta() => {
 const clockHours = [0,1,2,3,4,5,6,7,8,9,10,11,12];
 const hourClockAngles = [];
 const minuteClockAngles = [];
-//TODO read span operator with ..60 or varargs (preferablev )
+//TODO read span operator with ..60 or varargs (preferable)
 const clockMinutes = [0,20,40,60];
 //this can be improved by adding an if-else statement
 //that added 30^o if it was an hour hand, and 6^o if
