@@ -13,25 +13,83 @@ let eastCoastTime = moment.format('LT');
 const eastCoastHour = eastCoastTime.trim(arr[0]);
 const eastCoastMinute = eastCoastTime.trim(arr[1]);
 //Pacific Standard Time is 3 hours behind EST:
-let westCoastTime = eastCoastHour-3 +':'+eastCoastMinute;
+let westCoastHour = eastCoastHour-3 +':'+eastCoastMinute;
 console.log(westCoastTime);
 const westCoastHour = westCoastTime.trim(arr[0]);
 const westCoastMinute = westCoastTime.trim(arr[1]);
 
+function calculateTheta() => {
+
+  //each angle theta is calculated by subtracting the minuteHandValue
+  //in degrees from the hourHandValue
+
+  let eastCoastAngle = Object.keys(hourClockAngles[eastCoastHour]);
+  let westCoastAngle = Object.keys(hourClockAngles[westCoastHour]);
+  //not differentiated between timezones since it is the same
+  let minuteHandAngle = Object.keys(minuteClockAngles[eastCoastMinute]);
+  console.log(hourHandValue);
+
+  let thetaEast = eastCoastAngle - minuteHandAngle;
+  let thetaWest = westCoastAngle - minuteHandAngle;
+  console.log(thetaEast);
+  console.log(thetaWest);
+  //clunky but it works, can improve possibly by making an array of
+  //timezones especially if calculating all UTC values
+  if (thetaEast < 0) {
+    thetaEast += 360;
+  }else if (thetaWest < 0) {
+    thetaWest += 360;
+  }
+  return matchingAngleArray;
+  //from angles 0-360*
+}
+
+(function getMatchingAngles() => {
+
+  const matchingAngleArray = [];
+  //for all times in a 24 hour window using moment
+  const aroundTheClock = [moment()..moment.endOf('day').fromNow();
+  const matchingAngles = aroundTheClock.map(time =>{
+    calculateTheta();
+    //TODO make sure theta values are able to be read
+    if (thetaEast == thetaWest) {
+      //TODO format timestamp for HH:MM
+      matchingAngleArray.push(time);
+    }
+    return matchingAngleArray;
+})();
+
 //assign hour angles in a clock to correspond to increments of 30^o
 //in future, have degrees in a circle divided by hours
 const clockHours = [0,1,2,3,4,5,6,7,8,9,10,11,12];
-const clockAngles = [];
-//const clockMinutes = [0..60];
-const angles = clockHours.map(hour => {
-  let currAngle = 0;
+const hourClockAngles = [];
+const minuteClockAngles = [];
+//TODO read span operator with ..60 or varargs (preferablev )
+const clockMinutes = [0,20,40,60];
+//this can be improved by adding an if-else statement
+//that added 30^o if it was an hour hand, and 6^o if
+//a minute hand and pushed to the appropriate array
+const hourAngles = clockHours.map(hour => {
+  //TODO test this outside of both aarrays
+  let currAngle;
+  let hourAngleJSON;
   currAngle += 30;
   console.log(currAngle);
-  clockAngles.push(currAngle);
+  hourAngleJSO = {"hour" : "currAngle"};
+  hourClockAngles.push({hourAngleJSO);
+  console.log(hourClockAngles);
+  return hourClockAngles;
 });
 
-console.log(clockAngles);
-
+const minuteAngles = clockMinutes.map(minute => {
+  let currAngle;
+  currAngle += 6;
+  console.log(currAngle);
+  minuteAngleJSO = {"minute" : "currAngle"};
+  minuteClockAngles.push(minuteAngleJSO);
+  console.log(minuteClockAngles);
+  return minuteClockAngles;
+});
 
 
 
