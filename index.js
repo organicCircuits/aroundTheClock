@@ -48,11 +48,13 @@ const moment = require('moment');
 
   const matchingAngleArray = [];
   //for all times in a 24 hour window using moment
-  const aroundTheClock = [moment().moment.endOf('day').fromNow();
+  const aroundTheClock = [moment().moment.endOf('day').fromNow()];
   const matchingAngles = aroundTheClock.map(time =>{
     calculateTheta(time);
-    return matchingAngles;
-})();
+  });
+
+  return matchingAngles;
+  })();
 
 //assign hour angles in a clock to correspond to increments of 30^o
 //in future, have degrees in a circle divided by hours
@@ -67,11 +69,12 @@ const clockMinutes = [0,20,40,60];
 const hourAngles = clockHours.map(hour => {
   //TODO test this outside of both aarrays
   let currAngle;
-  let hourAngleJSON;
+  //returning a JavaScript Object, not JSON so:
+  let hourAngleJSO;
   currAngle += 30;
   console.log(currAngle);
   hourAngleJSO = {"hour" : "currAngle"};
-  hourClockAngles.push({hourAngleJSO);
+  hourClockAngles.push({hourAngleJSO});
   console.log(hourClockAngles);
   return hourClockAngles;
 });
