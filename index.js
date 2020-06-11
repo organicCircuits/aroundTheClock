@@ -70,7 +70,7 @@ let hourAngles = clockHours.map(hour => {
   hourAnglePair.push(...hour, ...currentAngle);
   //check to see what the array contains
   console.log(hourAngles);
-  }
+});
 
 let minuteAngles = clockMinutes.map(minute => {
   let currentAngle;
@@ -79,4 +79,4 @@ let minuteAngles = clockMinutes.map(minute => {
   minuteAnglePair.push(...minute, ...currentAngle);
   //check to see what the array contains
   console.log(minuteAngles);
-}
+});
