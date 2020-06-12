@@ -24,29 +24,26 @@ function utcConversion(utcTime, timezone) {
       //TODO +/- based on utc value
       console.log(eastCoastTime);
       return eastCoastTime;
-      break;
     case "CDT":
       const centralTime = utcTime.format("HH:mm:ss");
       console.log(centralTime);
       return centralTime;
-      break;
     case "MDT":
       const mountainTime = utcTime.format("HH:mm:ss");
       console.log(mountainTime);
       return mountainTime;
-      break;
     case "PDT":
       const westCoastTime = utcTime.format("HH:mm:ss");
       console.log(westCoastTime);
       return westCoastTime;
-      break;
     default:
-      return "Eoth talich danya: No valid timezone entered.";
-      break;
+      const msg = "Eoth talich danya: No valid timezone entered.";
+      console.log(msg);
+      return msg;
   }
 }
 
-utcConversion(utcTime, "PDT");
+utcConversion(utcTime, "EMT");
 
 //   //assign number left of semicolon to hours, right of semicolon to minutes
 //   const eastCoastHour = eastCoastTime.trim(arr[0]);
