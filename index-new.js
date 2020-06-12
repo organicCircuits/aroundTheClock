@@ -11,13 +11,43 @@ console.log("Hello Eoth.");
 //TODO account for military time
 //   async function calculateTheta(time) {
 //   //moment.js to return current time in HH:MM format
-//reference
-let utcTime = moment.utc("2020-07-30 10:00:00");
+//TODO create military/civilian time conversion
+const utcTime = moment.utc("2020-07-30 10:03:10");
 console.log(utcTime);
-//TODO add seconds
-//TODO add offset from UTC for eastcoast
-let eastCoastTime = utcTime.format("HH:mm");
-console.log(eastCoastTime);
+const timezone = "EST";
+
+//TODO add other time zones
+function utcConversion(utcTime, timezone) {
+  switch (timezone) {
+    case "EDT":
+      const eastCoastTime = utcTime.format("HH:mm:ss");
+      //TODO +/- based on utc value
+      console.log(eastCoastTime);
+      return eastCoastTime;
+      break;
+    case "CDT":
+      const centralTime = utcTime.format("HH:mm:ss");
+      console.log(centralTime);
+      return centralTime;
+      break;
+    case "MDT":
+      const mountainTime = utcTime.format("HH:mm:ss");
+      console.log(mountainTime);
+      return mountainTime;
+      break;
+    case "PDT":
+      const westCoastTime = utcTime.format("HH:mm:ss");
+      console.log(westCoastTime);
+      return westCoastTime;
+      break;
+    default:
+      return "Eoth talich danya: No valid timezone entered.";
+      break;
+  }
+}
+
+utcConversion(utcTime, "PDT");
+
 //   //assign number left of semicolon to hours, right of semicolon to minutes
 //   const eastCoastHour = eastCoastTime.trim(arr[0]);
 //   const eastCoastMinute = eastCoastTime.trim(arr[1]);
