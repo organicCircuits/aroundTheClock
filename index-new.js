@@ -12,30 +12,44 @@ console.log("Hello Eoth.");
 //   async function calculateTheta(time) {
 //   //moment.js to return current time in HH:MM format
 //TODO create military/civilian time conversion
-const utcTime = moment.utc("2020-07-30 10:03:10");
+const utcTime = moment.utc();
+let utcHour = utcTime.format("HH");
+if (utcHour == 00) {
+  utcHour = 12;
+}
+const minutes = utcTime.format("mm");
 console.log(utcTime);
-const timezone = "EST";
+console.log(utcHour);
+console.log(minutes);
+const timezone = "PDT";
 
 //TODO add other time zones
 function utcConversion(utcTime, timezone) {
   switch (timezone) {
-    case "EDT":
-      const eastCoastTime = utcTime.format("HH:mm:ss");
-      //TODO +/- based on utc value
+    case "EST":
+      const eastCoastHour = utcHour - 4;
+        console.log(eastCoastHour);
+      const eastCoastTime = eastCoastHour + ":" +  minutes;
       console.log(eastCoastTime);
       return eastCoastTime;
     case "CDT":
-      const centralTime = utcTime.format("HH:mm:ss");
+    const centralHour = utcHour - 5;
+      console.log(centralHour);
+    const centralTime = centralHour + ":" +  minutes;
       console.log(centralTime);
       return centralTime;
     case "MDT":
-      const mountainTime = utcTime.format("HH:mm:ss");
+    const mountainHour = utcHour - 6;
+      console.log(mountainHour);
+    const mountainTime = mountainHour + ":" +  minutes;
       console.log(mountainTime);
       return mountainTime;
     case "PDT":
-      const westCoastTime = utcTime.format("HH:mm:ss");
-      console.log(westCoastTime);
-      return westCoastTime;
+    const pacificHour = utcHour - 7;
+      console.log(pacificHour);
+    const pacificTime = pacificHour + ":" +  minutes;
+      console.log(pacificTime);
+      return pacificTime;
     default:
       const msg = "Eoth talich danya: No valid timezone entered.";
       console.log(msg);
@@ -43,7 +57,7 @@ function utcConversion(utcTime, timezone) {
   }
 }
 
-utcConversion(utcTime, "EMT");
+utcConversion(utcTime, "EST");
 
 //   //assign number left of semicolon to hours, right of semicolon to minutes
 //   const eastCoastHour = eastCoastTime.trim(arr[0]);
