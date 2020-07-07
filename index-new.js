@@ -8,46 +8,50 @@ const moment = require("moment");
 //Author: Ashley Robinson
 
 console.log("Hello Eoth.");
-//TODO account for military time
-//   async function calculateTheta(time) {
-//   //moment.js to return current time in HH:MM format
+
+//moment to return current time in HH:MM format
 //TODO create military/civilian time conversion
-const utcTime = moment.utc();
+const utcTime = moment.utc("2020-07-06T01:36:30Z");
 let utcHour = utcTime.format("HH");
-if (utcHour == 00) {
-  utcHour = 12;
-}
 const minutes = utcTime.format("mm");
 console.log(utcTime);
 console.log(utcHour);
 console.log(minutes);
-const timezone = "PDT";
 
 //TODO add other time zones
-function utcConversion(utcTime, timezone) {
+function utcConversion(utcHour, timezone) {
   switch (timezone) {
     case "EST":
-      const eastCoastHour = utcHour - 4;
-        console.log(eastCoastHour);
-      const eastCoastTime = eastCoastHour + ":" +  minutes;
+      //east coast time is 4 hours behind utc
+      //other timezones follow east to west
+      let eastCoastHour = utcHour - 4;
+      //moment will return 00, 01, etc times; checkIfNegative will return only
+      //positive values for the conversion and assign it to the zone's hour
+      let hour = checkIfNegative(eastCoastHour);
+      console.log(hour);
+      //construct the actual clock value
+      const eastCoastTime = hour + ":" +  minutes;
       console.log(eastCoastTime);
       return eastCoastTime;
     case "CDT":
-    const centralHour = utcHour - 5;
-      console.log(centralHour);
-    const centralTime = centralHour + ":" +  minutes;
+      const centralHour = utcHour - 5;
+      let centralPositive = checkIfNegative(centralHour);
+      console.log(centralPositive);
+      const centralTime = centralPositive + ":" +  minutes;
       console.log(centralTime);
       return centralTime;
     case "MDT":
-    const mountainHour = utcHour - 6;
-      console.log(mountainHour);
-    const mountainTime = mountainHour + ":" +  minutes;
+      const mountainHour = utcHour - 6;
+      let mountainPositive = checkIfNegative(mountainHour);
+      console.log(mountainPositive);
+      const mountainTime = mountainPositive + ":" +  minutes;
       console.log(mountainTime);
       return mountainTime;
     case "PDT":
-    const pacificHour = utcHour - 7;
-      console.log(pacificHour);
-    const pacificTime = pacificHour + ":" +  minutes;
+      const pacificHour = utcHour - 7;
+      let pacificPositive = checkIfNegative(pacificHour);
+      console.log(pacificPositive);
+      const pacificTime = pacificPositive + ":" +  minutes;
       console.log(pacificTime);
       return pacificTime;
     default:
@@ -57,16 +61,73 @@ function utcConversion(utcTime, timezone) {
   }
 }
 
-utcConversion(utcTime, "EST");
+//TODO learn shortcut for refactoring, selecting whole word
+//checks if the resulting conversion from utc resulted in a negative
+//number. If so, it adds 12 to correspond to actual clock values
+function checkIfNegative(hour) {
+  if (hour <= 0) {
+    console.log("The hour was negative:", hour);
+    hour += 12;
+    return hour;
+  } else {
+    console.log("The hour was positive:", hour);
+    return hour;
+  }
+}
 
-//   //assign number left of semicolon to hours, right of semicolon to minutes
-//   const eastCoastHour = eastCoastTime.trim(arr[0]);
-//   const eastCoastMinute = eastCoastTime.trim(arr[1]);
-//   //Pacific Standard Time is 3 hours behind Eastern:
-//   let westCoastHour = eastCoastHour-3;
-//   console.log(westCoastTime);
-//   //no need to calculate west coast minutes since they're the same
-//   const westCoastMinute = eastCoastMinute;
+utcConversion(utcHour, "EST");
+
+//assigns each hand an agle with 90 degrees being 12 o'clock and 0 at 3 o'clock
+function assignClockDegrees() {
+  let hourHandDegrees = [];
+  let minuteHandDegrees = [];
+  let hour = 0;
+  let minute = 0;
+  let hourDegree = 0;
+  let minuteDegree = 0;
+
+  while (hourDegree < 360) {
+    hourHandDegrees.push([hour, hourDegree]);
+    hourDegree += 30;
+    hour++;
+    break;
+  }
+
+  while (minuteDegree < 360) {
+    minuteHandDegrees.push([hour, hourDegree]);
+    hourDegree += 30;
+    minute++;
+    break;
+  };
+
+  console.log("The clock hours and their angle is:", hourHandDegrees);
+  console.log("The clock hours and their angle is:", minuteHandDegrees);
+}
+
+assignClockDegrees();
+
+//compares angles of two timezones in a 24 hour period and pushes matching
+//angles to an array that is returned to users
+function compareClockAngles(hourHandOne, hourHandTwo, minuteHand) {
+
+}
+
+//function to determine the two timezones the angles should be compared to
+function chooseTimezones(timezoneOne, timezoneTwo) {
+
+
+}
+
+
+// for (let hour =0; hour < 12; hourHand++) {
+//   hourHand += 30;
+// }
+//TODO ++ time by minute to run through clock +24 hourAngles;
+//this will require hour incrementing every time minutes reach 60
+
+//calculates the angke between the hour and and the minute hand of specific
+//timezones
+//function calculateTheta(time) {
 //
 //   //each angle theta is calculated by subtracting the minuteHandValue
 //   //in degrees from the hourHandValue. if this results in a negative
