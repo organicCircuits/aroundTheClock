@@ -86,20 +86,25 @@ function assignClockDegrees() {
   let hourDegree = 0;
   let minuteDegree = 0;
 
+  function calculateHours() {
   do {
     hourHandDegrees.push([hour, hourDegree]);
     hourDegree += 30;
     hour++;
   } while (hourDegree <= 360);
+}
 
-  // do {
-  //   minuteHandDegrees.push([hour, hourDegree]);
-  //   hourDegree += 30;
-  //   minute++;
-  // } while (minuteDegree < 360) ;
-
+  function calculateMinutes() {
+  do {
+    minuteHandDegrees.push([minute, minuteDegree]);
+    minuteDegree += 6;
+    minute++;
+  } while (minuteDegree <= 360) ;
+}
+  calculateHours();
+  calculateMinutes();
   console.log("The clock hours and their angle is:", hourHandDegrees);
-  //console.log("The clock minutes and their angle is:", minuteHandDegrees);
+  console.log("The clock minutes and their angle is:", minuteHandDegrees);
 }
 
 assignClockDegrees();
