@@ -14,7 +14,7 @@ function utcConversion(timezone) {
 
   //moment to return current time in HH:MM format
   //TODO create military/civilian time conversion
-  const utcTime = moment.utc("2020-07-06T01:36:30Z");
+  const utcTime = moment.utc("2020-07-06T04:15:30Z");
   let utcHour = utcTime.format("HH");
   const minutes = utcTime.format("mm");
   console.log(utcTime);
@@ -123,7 +123,7 @@ function caluclateTheta(hourHandOne, hourHandTwo, minuteHand) {
   //TODO remove hardcoded values
   //TODO return the second array value when the first matches hourHandOne, etc
   const hourOneDegree = 0;
-  const hourTwoDegree = 240;
+  const hourTwoDegree = 0;
   const minuteDegree = 90;
 
   //each angle theta is calculated by subtracting the minuteDegree
@@ -131,27 +131,32 @@ function caluclateTheta(hourHandOne, hourHandTwo, minuteHand) {
   //value, 360 is added to bring positive and still maintain the angle
   let thetaOne = minuteDegree - hourOneDegree;
   let thetaTwo = minuteDegree - hourTwoDegree;
-  console.log("Angle one's value is:", thetaOne);
-  console.log("Angle two's value is:", thetaTwo);
 
     if (thetaOne < 0) {
-      thetaOne+= 360;
+      thetaOne += 360;
     }
     if (thetaTwo < 0) {
       thetaTwo += 360;
     }
 
-  //   //if a match is found, push to an array
-  //   let matchingAngleArray;
-  //   if (thetaEast == thetaWest) {
-  //     //TODO format timestamp for HH:MM
-  //     matchingAngleArray.push(time);
-  //   }
-  //   console.log(matchingAngleArray);
-  // }
+  console.log("Angle one's value is:", thetaOne);
+  console.log("Angle two's value is:", thetaTwo);
+
+  //if a match is found, push to an array
+  let matchingAngleArray = [];
+
+    if (thetaOne == thetaTwo) {
+      //TODO format timestamp for HH:MM
+      matchingAngleArray.push(hourHandOne + minuteHand);
+    }else{
+      //TODO update console log to error message when aroundTheClock() is fxnal
+      console.log("The angles do no match.");
+    }
+    console.log(matchingAngleArray);
+  }
 
   aroundTheClock();
-}
+
 
 //returns all matching angles between the two timezones for a 24 hour period
 function aroundTheClock() {
@@ -184,17 +189,9 @@ driver("EST", "PDT");
 //TODO ++ time by minute to run through clock +24 hourAngles;
 //this will require hour incrementing every time minutes reach 60
 
-//calculates the angke between the hour and and the minute hand for each tz
-
-//
-// calculateTheta(2:24);
-
-// //main function that calls calculateTheta() that compares angles
-// //formed by the hour and minute hand
-// function getMatchingAngles() {
 //   //24 hour window using moment to include matching am and pm values
 //   const twentyFour = [moment().moment.endOf('day').fromNow()];
-//   const matchingAngles = aroundTheClock.map(time =>{
+//   const matchingAngles = twentyFour.map(time => {
 //     return calculateTheta(time);
 //   }
 //
