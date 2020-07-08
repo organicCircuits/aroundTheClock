@@ -117,7 +117,7 @@ function assignClockDegrees() {
 function caluclateTheta(hourHandOne, hourHandTwo, minuteHand) {
 
   //TODO check if assignClockDegrees and functions following need to be
-  //promises; if so, update accordingly
+  //promises; if so, update accordingly. also see if this is best placement
   assignClockDegrees();
   //TODO compare time 12:15 AM EST (4:15 AM UTC) and 9:15 AM's angles
   //TODO remove hardcoded values
@@ -142,26 +142,52 @@ function caluclateTheta(hourHandOne, hourHandTwo, minuteHand) {
   console.log("Angle one's value is:", thetaOne);
   console.log("Angle two's value is:", thetaTwo);
 
-  //if a match is found, push to an array
   let matchingAngleArray = [];
 
-    if (thetaOne == thetaTwo) {
-      //TODO format timestamp for HH:MM
-      matchingAngleArray.push(hourHandOne + minuteHand);
-    }else{
-      //TODO update console log to error message when aroundTheClock() is fxnal
-      console.log("The angles do no match.");
-    }
-    console.log(matchingAngleArray);
+  //if a match is found, push to an array
+  if (thetaOne == thetaTwo) {
+    matchingAngleArray.push(hourHandOne + ":" + minuteHand);
+  }else{
+    //TODO update console log to error message when aroundTheClock() is fxnal
+    console.log("The angles do no match.");
   }
 
-  aroundTheClock();
-
+  console.log(matchingAngleArray);
+  return matchingAngleArray;
+}
 
 //returns all matching angles between the two timezones for a 24 hour period
-function aroundTheClock() {
+function aroundTheClock(hourHandOne, hourHandTwo, minuteHand) {
 
-  console.log("Initial function aroundTheClock reached.");
+  //TODO ++ time by minute to run through clock +24 hourAngles;
+  //this will require hour incrementing every time minutes reach 60
+
+  //24 hour window using moment to include matching am and pm values
+  //TODO consider conversion to epoch time and increment in minutes (or s)
+    const utcTime = moment.utc("2020-07-06T04:15:30Z");
+    const utcEpoch = moment.utc("2020-07-06T04:15:30Z").unix();
+    const twentyFour = utcTime.add(24, 'hour');
+    const twentyFourEpoch = utcTime.add(24, 'hour').unix();
+    console.log(utcTime);
+    console.log(utcEpoch);
+    console.log(twentyFour);
+    console.log(twentyFourEpoch);
+
+    //for every minute in a 24 hour period
+    for (let i=0; utcEpoch < twentyFourEpoch; i++) {
+      caluclateTheta(hourHandOne, hourHandTwo, minuteHand);
+      minuteHand++;
+      if (minuteHand === 60) {
+        hourHandOne++;
+        hourHandTwo++;
+        minuteHand = 0;
+      }
+      let hourCounter = 0;
+      hourCounter++;
+      if (hourCounter >= 24) {
+        break;
+      }
+    }
 }
 
 //function to determine the two timezones the angles should be compared to
@@ -175,23 +201,18 @@ function driver(timezoneOne, timezoneTwo) {
   let hourOne = timeOne.substring(0,1);
   let hourTwo = timeOne.substring(0,1);
   //no need for both timeOne and timeTwo's minutes since the same
-  let minuteHand = timeOne.substring(2);
+  let minuteHand = timeOne.substring(3);
   console.log("Hour substing one", hourOne);
   console.log("Hour substing two", hourTwo);
   console.log("Minute substring", minuteHand);
 
-  caluclateTheta(hourOne, hourTwo, minuteHand);
+
+  aroundTheClock(hourOne, hourTwo, minuteHand);
 
 }
 
 driver("EST", "PDT");
 
-//TODO ++ time by minute to run through clock +24 hourAngles;
-//this will require hour incrementing every time minutes reach 60
-
-//   //24 hour window using moment to include matching am and pm values
-//   const twentyFour = [moment().moment.endOf('day').fromNow()];
-//   const matchingAngles = twentyFour.map(time => {
-//     return calculateTheta(time);
-//   }
-//
+// const matchingAngles = twentyFour.map(time => {
+//   return caluclateTheta(hourHandOne, hourHandTwo, minuteHand);
+// });
