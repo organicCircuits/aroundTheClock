@@ -1,2 +1,2 @@
 # aroundTheClock
-This is a repository for the clock angle problem presented by Paymerang.
+This is a small repository for the clock angle problem.
