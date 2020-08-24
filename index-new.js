@@ -7,8 +7,6 @@ const moment = require("moment");
 //ability to calculate matching angles between any two timezones.
 //Author: Ashley Robinson
 
-console.log("Hello Eoth.");
-
 //TODO add other time zones
 function utcConversion(timezone) {
 
