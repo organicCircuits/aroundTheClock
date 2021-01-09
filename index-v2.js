@@ -12,12 +12,16 @@ let utcConversion = (timezone) => {
 
   //moment to return current time in HH:MM format
   //TODO create military/civilian time conversion
-  const utcTime = moment.utc("2020-07-06T04:15:30Z");
-  let utcHour = utcTime.format("HH");
-  const minutes = utcTime.format("mm");
-  console.log(utcTime);
-  console.log(utcHour);
-  console.log(minutes);
+  const utcTime = moment.utc().format("HH:mm:ss");//YYYY-MM-DD
+  console.log("The type of utcTime is:", typeof(utcTime));
+  //const utcTimeString = JSON.stringify(utcTime);
+  const utcHour = utcTime.substring(0,2);
+  const minutes = utcTime.substring(3,5);
+  //TODO add seconds for all possible matching angles
+  console.log("Current UTC time is: ", utcTime);
+  //console.log("Current UTC stringified time is: ", utcTimeString);
+  console.log("Current UTC hour is: ", utcHour);
+  console.log("The current minutes are: ", minutes);
 
   switch (timezone) {
     case "EST":
@@ -28,10 +32,10 @@ let utcConversion = (timezone) => {
       //moment will return 00, 01, etc times; checkIfNegative will return only
       //positive values for the conversion and assign it to the zone's hour
       let hour = checkIfNegative(eastCoastHour);
-      console.log(hour);
+      console.log("The east coast hour is: ", hour);
       //construct the actual clock value
       const eastCoastTime = hour + ":" +  minutes;
-      console.log(eastCoastTime);
+      console.log("The equivalent east coast time is: ", eastCoastTime);
       return eastCoastTime;
     case "CST":
     case "CDT":
@@ -64,13 +68,17 @@ let utcConversion = (timezone) => {
   }
 }
 
-//TODO learn shortcut for refactoring, selecting whole word
-//checks if the resulting conversion from utc resulted in a negative
-//number. If so, it adds 12 to correspond to actual clock values
-let  checkIfNegative = (hour) => {
-  if (hour <= 0) {
-    console.log("The hour was negative:", hour);
+//checks if the resulting conversion from utc resulted in zero or a negative
+//number. If so, it adds 12 or 13 to correspond to actual clock values
+let checkIfNegative = (hour) => {
+
+  if (hour == 0) {
+    console.log("The normalized hour was zero:", hour);
     hour += 12;
+  }
+  if (hour < 0) {
+    console.log("The normalized hour was zero or negative:", hour);
+    hour += 11; //to account for adding over 0
     return hour;
   } else {
     console.log("The hour was positive:", hour);
@@ -157,7 +165,7 @@ let caluclateTheta = (hourHandOne, hourHandTwo, minuteHand) => {
 }
 
 //returns all matching angles between the two timezones for a 24 hour period
-let aroundTheClock = (hourHandOne, hourHandTwo, minuteHand) => {
+let aroundTheClock = (hourOne, hourTwo, minuteHand) => {
 
   //TODO ++ time by minute to run through clock +24 hourAngles;
   //this will require hour incrementing every time minutes reach 60
@@ -173,12 +181,13 @@ let aroundTheClock = (hourHandOne, hourHandTwo, minuteHand) => {
     console.log(twentyFour);
     console.log(twentyFourEpoch);
 
+    //TODO update to foreach
     //for every minute in a 24 hour period
     for (let i=0; utcEpoch < twentyFourEpoch; i++) {
-      caluclateTheta(hourHandOne, hourHandTwo, minuteHand);
+      caluclateTheta(hourOne, hourTwo, minuteHand);
       minuteHand++;
-      if (minuteHand === 60) {
-        hourHandOne++;
+      if (minuteHand === 60) { //TODO FIX
+        hourOne++;
         hourHandTwo++;
         minuteHand = 0;
       }
@@ -199,19 +208,18 @@ let driver = (timezoneOne, timezoneTwo) => {
   console.log("Coverted timezone two", timeTwo);
 
   let hourOne = timeOne.substring(0,1);
-  let hourTwo = timeOne.substring(0,1);
+  let hourTwo = timeTwo.substring(0,1);
   //no need for both timeOne and timeTwo's minutes since the same
   let minuteHand = timeOne.substring(3);
-  console.log("Hour substing one", hourOne);
-  console.log("Hour substing two", hourTwo);
-  console.log("Minute substring", minuteHand);
-
+  console.log("Hour substing one:", hourOne);
+  console.log("Hour substing two:", hourTwo);
+  console.log("Minute substring:", minuteHand);
 
   aroundTheClock(hourOne, hourTwo, minuteHand);
 
 }
 
-driver("EST", "PDT");
+driver("EST", "PST");
 
 // const matchingAngles = twentyFour.map(time => {
 //   return caluclateTheta(hourHandOne, hourHandTwo, minuteHand);
