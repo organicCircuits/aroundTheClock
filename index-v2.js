@@ -29,38 +29,39 @@ let utcConversion = (timezone) => {
       let eastCoastHour = utcHour - 4;
       //moment will return 00, 01, etc times; checkIfNegative will return only
       //positive values for the conversion and assign it to the zone's hour
-      let hour = checkIfNegative(eastCoastHour);
-      console.log("The east coast hour is: ", hour);
+      let eastCoastPositive = checkIfNegative(eastCoastHour);
+      console.log("The east coast hour is: ", eastCoastPositive);
       //construct the actual clock value
-      const eastCoastTime = hour + ":" +  minutes;
-      console.log("The equivalent east coast time is: ", eastCoastTime);
+      const eastCoastTime = eastCoastPositive + ":" +  minutes;
+      console.log("The equivalent Atlantic coast time is: ", eastCoastTime);
       return eastCoastTime;
     case "CST":
     case "CDT":
-      const centralHour = utcHour - 5;
-      let centralPositive = checkIfNegative(centralHour);
-      console.log(centralPositive);
-      const centralTime = centralPositive + ":" +  minutes;
-      console.log(centralTime);
+      let centralHour = utcHour - 5;
+      let mountainPositive = checkIfNegative(centralHour);
+      console.log(hour);
+      const centralTime = mountainPositive + ":" +  minutes;
+      console.log("The equivalent central time is: ", centralTime);
       return centralTime;
     case "MST":
     case "MDT":
       const mountainHour = utcHour - 6;
-      let mountainPositive = checkIfNegative(mountainHour);
-      console.log(mountainPositive);
+      let hour = checkIfNegative(mountainHour);
+      console.log(hour);
       const mountainTime = mountainPositive + ":" +  minutes;
-      console.log(mountainTime);
+      console.log("The equivalent mountain time is: ", mountainTime);
       return mountainTime;
     case "PST":
     case "PDT":
       const pacificHour = utcHour - 7;
       let pacificPositive = checkIfNegative(pacificHour);
-      console.log(pacificPositive);
+      console.log("The pacific hour is: ", pacificPositive);
       const pacificTime = pacificPositive + ":" +  minutes;
-      console.log(pacificTime);
+      console.log("The equivalent Pacific coast time is: ", pacificTime);
+      //TODO return as time, not as specific timezone
       return pacificTime;
     default:
-      const msg = "Eoth talich danya: No valid timezone entered.";
+      const msg = "Eoth talich danya: A valid timezone was not entered.";
       console.log(msg);
       return msg;
   }
@@ -88,22 +89,27 @@ let checkIfNegative = (hour) => {
 let assignClockDegrees = () => {
   let hourHandDegrees = [];
   let minuteHandDegrees = [];
-  let hour = 0;
-  let minute = 0;
-  let hourDegree = 0;
-  let minuteDegree = 0;
 
+  //upgrade to foreach
   let calculateHours = () => {
+  let hour = 0;
+  let hourDegree = 0;
+
   do {
-    hourHandDegrees.push([hour, hourDegree]);
+    console.log('the current hour is:', hour);
+    hourHandDegrees.push([{hour, hourDegree}]);
     hourDegree += 30;
     hour++;
   } while (hourDegree <= 360);
 }
 
   let calculateMinutes = () => {
+  let minute = 0;
+  let minuteDegree = 0;
+
   do {
-    minuteHandDegrees.push([minute, minuteDegree]);
+    console.log('the current minute is:', minute);
+    minuteHandDegrees.push([{minute, minuteDegree}]);
     minuteDegree += 6;
     minute++;
   } while (minuteDegree <= 360) ;
@@ -225,10 +231,10 @@ let driver = (timezoneOne, timezoneTwo) => {
   console.log("Coverted timezone one: ", timeOne);
   console.log("Coverted timezone two: ", timeTwo);
 
-  let hourOne = timeOne.substring(0,1);
-  let hourTwo = timeTwo.substring(0,1);
+  let hourOne = timeOne.substring(0,2);
+  let hourTwo = timeTwo.substring(0,2);
   //no need for both timeOne and timeTwo's minutes since the same
-  let minuteHand = timeOne.substring(2,4);
+  let minuteHand = timeOne.substring(3,5);
   console.log("Hour substing one:", hourOne);
   console.log("Hour substing two:", hourTwo);
   console.log("Minute substring:", minuteHand);
