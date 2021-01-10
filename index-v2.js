@@ -83,10 +83,11 @@ let checkIfNegative = hour => {
   }
 };
 
+let hourHandDegrees = [];
+let minuteHandDegrees = [];
 //assigns each hand an agle with 90 degrees being 12 o'clock and 0 at 3 o'clock
 let assignClockDegrees = (hourOne, hourTwo, minuteHand) => {
-  let hourHandDegrees = [];
-  let minuteHandDegrees = [];
+
 
   //upgrade to foreach
   let calculateHours = () => {
@@ -120,51 +121,79 @@ let assignClockDegrees = (hourOne, hourTwo, minuteHand) => {
   //TODO compare time 12:15 AM EST (4:15 AM UTC) and 9:15 AM's angles
   //TODO remove hardcoded values
   //TODO return the second array value when the first matches hourHandOne, etc
-  const hourOneDegree = 0; //TODO figure this out: hourHandDegrees.find((hourOne.value) => {});
-  console.log("Hour One's degree angle is:", hourOneDegree);
-  const hourTwoDegree = 0;
-  console.log("Hour Two's degree angle is:", hourOneDegree);
+  // const hourOneDegree = 0; //TODO figure this out: hourHandDegrees.find((hourOne.value) => {});
+  // console.log("Hour One's degree angle is:", hourOneDegree);
+  // const hourTwoDegree = 0;
+  // console.log("Hour Two's degree angle is:", hourOneDegree);
+}
 
-  let findMinuteAngle = () => {
-    minuteHandDegrees.forEach((minute, i) => {
-      if (minute[i] === minuteHand) {
-        let minuteAngle = minute.minuteDegree;
-        // try {
-        //   findMinuteAngle(minuteHand);
-        // } catch (err){
-        //   console.log("Something went wrong.");
-        // }
-        return minuteAngle;
-      } else {
-        console.log("No matching angle found.");
-      }
+let findMinuteAngle = (minuteHand) => {
+    //try {
+      minuteHandDegrees.forEach((minute, i) => {
+        if (minute[i] === minuteHand) {
+          let minuteAngle = minute.minuteDegree;
+          return minuteAngle;
+        } else {
+          console.log("No matching angle found for minutes.");
+        }
+    // } catch (err){
+    //   console.log("Something went wrong.");
+    // }
     });
   };
 
-  let findHourTwoAngle = hourTwo => {
+let findHourTwoAngle = (hourTwo) => {
     hourHandDegrees.forEach((hour, i) => {
       if (hour[i] === hourTwo) {
         let hourTwoAngle = hour.hourDegree;
         return hourTwoAngle;
       } else {
-        console.log("No matching angle found.");
+        console.log("No matching angle found for hour two.");
       }
     });
   };
 
-  let findHourOneAngle = hourOne => {
+let findHourOneAngle = (hourOne) => {
     hourHandDegrees.forEach((hour, i) => {
       if (hour[i] === hourOne) {
         let hourOneAngle = hour.hourDegree;
         return hourOneAngle;
       } else {
-        console.log("No matching angle found.");
+
+        //TODO add string || number check to code
+        console.log("No matching angle found for hour one.");
       }
     });
   };
-  findMinuteAngle();
-  findHourOneAngle();
-  findHourTwoAngle();
+
+//each angle theta is calculated by subtracting the minute's
+//angle in degrees from each hour's assigned degree. if this results in a
+//negative value, 360 is added to make positive and keep the same angle
+let caluclateTheta = (hourOne, hourTwo, minuteHand) => {
+
+    //  let findAllAngles = () => {
+    //}
+
+    let miniuteTheta = findMinuteAngle(minuteHand);
+    let hourOneTheta = findHourOneAngle(hourOne);
+    let hourTwoTheta = findHourTwoAngle(hourTwo);
+    //if (typeOf(minuteAngle) == number && typeOf(hourOneAngle) == number) {
+
+      let thetaHourOne = miniuteTheta - hourOneTheta;
+      let thetaHourTwo = miniuteTheta - hourTwoTheta;
+
+      if (thetaHourOne < 0) {
+        thetaHourOne += 360;
+      }
+      if (thetaHourTwo < 0) {
+        thetaHourTwo += 360;
+      }
+      console.log("Angle one's value is:", thetaHourOne);
+      console.log("Angle two's value is:", thetaHourTwo);
+  //}
+    return thetaHourOne, thetaHourTwo;
+
+}
   // let findMinuteAngle = minuteHandDegrees.find((minute) => {
   //   //const minuteAngle = minuteHandDegrees.minuteDegree;
   //   const minuteAngle = minute.minuteDegree;
@@ -172,47 +201,22 @@ let assignClockDegrees = (hourOne, hourTwo, minuteHand) => {
   //   return minuteAngle;
   // });
 
-  //findMinuteAngle();
-  //console.log("hourOneDegree is:", hourOneDegree);
-  //return minuteAngle; //hourOneAngle, hourTwoAngle,
-};
+let doAnglesMatch = (thetaHourOne,thetaHourTwo) => {
 
-//compares angles of two timezones in a 24 hour period and returns matching
-//angles to an array
-let caluclateTheta = (hourOne, hourTwo, minuteHand) => {
   let matchingAngleArray = [];
-  assignClockDegrees(hourOne, hourTwo, minuteHand);
-  //each angle theta is calculated by subtracting the minute's
-  //angle in degrees from each hour's assigned degree. if this results in a
-  //negative value, 360 is added to make positive and keep the same angle
-  let thetaOne = minuteDegree - hourOneDegree;
-  console.log(thetaOne);
-  let thetaTwo = minuteDegree - hourTwoDegree;
-  console.log(thetaTwo);
-
-  if (thetaOne < 0) {
-    thetaOne += 360;
-  }
-  if (thetaTwo < 0) {
-    thetaTwo += 360;
-  }
-
-  console.log("Angle one's value is:", thetaOne);
-  console.log("Angle two's value is:", thetaTwo);
-
-
-
   //if a match is found, push to an array
-  if (thetaOne == thetaTwo) {
-    matchingAngleArray.push(hourOne + ":" + minuteHand);
-  } else {
-    //TODO update console log to error message when aroundTheClock() is fxnal
-    console.log("The angles do no match.");
-  }
-
+  if (thetaHourOne == thetaHourTwo) {
+    const msgMatch = `${hourOne} + ":" + ${minuteHand} + " and " + ${hourTwo} + ${minuteHand} + "s time have a matching angle of " + ${thetaHourOne} + " degrees."`;
+      matchingAngleArray.push([msgMatch]); //just theta one because matching
+    } else {
+      //TODO update console log to error message when aroundTheClock() is fxnal
+      const msg404 = `${hourOne} + ":" + ${minuteHand} + " and " + ${hourTwo} + ${minuteHand} + "do not match."`;
+      console.log(msg404);
+}
   console.log(matchingAngleArray);
   return matchingAngleArray;
-};
+}
+
 
 //returns all matching angles between the two timezones for a 24 hour period
 let aroundTheClock = (hourOne, hourTwo, minuteHand) => {
@@ -227,6 +231,7 @@ let aroundTheClock = (hourOne, hourTwo, minuteHand) => {
   //TODO update to foreach
   //for every minute in a 24 hour period
   for (let i = 0; i < iterations; i++) {
+    //link data here
     caluclateTheta(hourOne, hourTwo, minuteHand);
     minuteHand++;
     if (minuteHand == 60) {
@@ -266,11 +271,14 @@ let driver = (timezoneOne, timezoneTwo) => {
   let hourTwo = timeTwo.substring(0, 2);
   //no need for both timeOne and timeTwo's minutes since the same
   let minuteHand = timeOne.substring(3, 5);
+
   console.log("Hour substing one:", hourOne);
   console.log("Hour substing two:", hourTwo);
   console.log("Minute substring:", minuteHand);
 
-  return aroundTheClock(hourOne, hourTwo, minuteHand);
+  aroundTheClock(hourOne, hourTwo, minuteHand);
+  doAnglesMatch(hourOneAngle, hourTwoAngle);
+  return matchingAngleArray;
 };
 
 driver("EST", "PST");
