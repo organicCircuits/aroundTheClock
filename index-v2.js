@@ -8,13 +8,12 @@ const moment = require("moment");
 //Author: Ashley Robinson
 
 //moment to return current time in HH:MM format
-const utcTime = moment.utc().format("HH:mm:ss");//YYYY-MM-DD
+const utcTime = moment.utc().format("HH:mm:ss"); //YYYY-MM-DD
 //TODO add other time zones
 //TODO create military/civilian time conversion
-let utcConversion = (timezone) => {
-
-  const utcHour = utcTime.substring(0,2);
-  const minutes = utcTime.substring(3,5);
+let utcConversion = timezone => {
+  const utcHour = utcTime.substring(0, 2);
+  const minutes = utcTime.substring(3, 5);
   //TODO add seconds for all possible matching angles
   console.log("Current UTC time is: ", utcTime);
   //console.log("Current UTC stringified time is: ", utcTimeString);
@@ -32,7 +31,7 @@ let utcConversion = (timezone) => {
       let eastCoastPositive = checkIfNegative(eastCoastHour);
       console.log("The east coast hour is: ", eastCoastPositive);
       //construct the actual clock value
-      const eastCoastTime = eastCoastPositive + ":" +  minutes;
+      const eastCoastTime = eastCoastPositive + ":" + minutes;
       console.log("The equivalent Atlantic coast time is: ", eastCoastTime);
       return eastCoastTime;
     case "CST":
@@ -40,7 +39,7 @@ let utcConversion = (timezone) => {
       let centralHour = utcHour - 5;
       let mountainPositive = checkIfNegative(centralHour);
       console.log(hour);
-      const centralTime = mountainPositive + ":" +  minutes;
+      const centralTime = mountainPositive + ":" + minutes;
       console.log("The equivalent central time is: ", centralTime);
       return centralTime;
     case "MST":
@@ -48,7 +47,7 @@ let utcConversion = (timezone) => {
       const mountainHour = utcHour - 6;
       let hour = checkIfNegative(mountainHour);
       console.log(hour);
-      const mountainTime = mountainPositive + ":" +  minutes;
+      const mountainTime = mountainPositive + ":" + minutes;
       console.log("The equivalent mountain time is: ", mountainTime);
       return mountainTime;
     case "PST":
@@ -56,7 +55,7 @@ let utcConversion = (timezone) => {
       const pacificHour = utcHour - 7;
       let pacificPositive = checkIfNegative(pacificHour);
       console.log("The pacific hour is: ", pacificPositive);
-      const pacificTime = pacificPositive + ":" +  minutes;
+      const pacificTime = pacificPositive + ":" + minutes;
       console.log("The equivalent Pacific coast time is: ", pacificTime);
       //TODO return as time, not as specific timezone
       return pacificTime;
@@ -65,12 +64,11 @@ let utcConversion = (timezone) => {
       console.log(msg);
       return msg;
   }
-}
+};
 
 //checks if the resulting conversion from utc resulted in zero or a negative
 //number. If so, it adds 12 or 13 to correspond to actual clock values
-let checkIfNegative = (hour) => {
-
+let checkIfNegative = hour => {
   if (hour == 0) {
     console.log("The normalized hour was zero:", hour);
     hour += 12;
@@ -83,164 +81,197 @@ let checkIfNegative = (hour) => {
     console.log("The hour was positive:", hour);
     return hour;
   }
-}
+};
 
 //assigns each hand an agle with 90 degrees being 12 o'clock and 0 at 3 o'clock
-let assignClockDegrees = () => {
+let assignClockDegrees = (hourOne, hourTwo, minuteHand) => {
   let hourHandDegrees = [];
   let minuteHandDegrees = [];
 
   //upgrade to foreach
   let calculateHours = () => {
-  let hour = 0;
-  let hourDegree = 0;
+    let hour = 0;
+    let hourDegree = 0;
 
-  do {
-    console.log('the current hour is:', hour);
-    hourHandDegrees.push([{hour, hourDegree}]);
-    hourDegree += 30;
-    hour++;
-  } while (hourDegree <= 360);
-}
+    do {
+      console.log("the current hour is:", hour);
+      hourHandDegrees.push([{ hour, hourDegree }]);
+      hourDegree += 30;
+      hour++;
+    } while (hourDegree <= 360);
+  };
 
   let calculateMinutes = () => {
-  let minute = 0;
-  let minuteDegree = 0;
+    let minute = 0;
+    let minuteDegree = 0;
 
-  do {
-    console.log('the current minute is:', minute);
-    minuteHandDegrees.push([{minute, minuteDegree}]);
-    minuteDegree += 6;
-    minute++;
-  } while (minuteDegree <= 360) ;
-}
+    do {
+      console.log("the current minute is:", minute);
+      minuteHandDegrees.push([{ minute, minuteDegree }]);
+      minuteDegree += 6;
+      minute++;
+    } while (minuteDegree <= 360);
+  };
   calculateHours();
   calculateMinutes();
   console.log("The clock hours and their angle is:", hourHandDegrees);
   console.log("The clock minutes and their angle is:", minuteHandDegrees);
 
-  return hourHandDegrees, minuteHandDegrees;
-}
-
-//compares angles of two timezones in a 24 hour period and pushes matching
-//angles to an array that is returned to users
-let caluclateTheta = (hourOne, hourTwo, minuteHand) => {
-
-  //TODO check if assignClockDegrees and functions following need to be
-  //promises; if so, update accordingly. also see if this is best placement
-  assignClockDegrees();
   //TODO compare time 12:15 AM EST (4:15 AM UTC) and 9:15 AM's angles
   //TODO remove hardcoded values
   //TODO return the second array value when the first matches hourHandOne, etc
-  const hourOneDegree = 0;//TODO figure this out: hourHandDegrees.find((hourOne.value) => {});
+  const hourOneDegree = 0; //TODO figure this out: hourHandDegrees.find((hourOne.value) => {});
   console.log("Hour One's degree angle is:", hourOneDegree);
   const hourTwoDegree = 0;
   console.log("Hour Two's degree angle is:", hourOneDegree);
-  const minuteDegree = 90;
-  console.log("hourOneDegree is:", hourOneDegree);
 
-  //each angle theta is calculated by subtracting the minuteDegree
-  //in degrees from each hour's assigned degree. if this results in a negative
-  //value, 360 is added to bring positive and still maintain the angle
+  let findMinuteAngle = () => {
+    minuteHandDegrees.forEach((minute, i) => {
+      if (minute[i] === minuteHand) {
+        let minuteAngle = minute.minuteDegree;
+        // try {
+        //   findMinuteAngle(minuteHand);
+        // } catch (err){
+        //   console.log("Something went wrong.");
+        // }
+        return minuteAngle;
+      } else {
+        console.log("No matching angle found.");
+      }
+    });
+  };
+
+  let findHourTwoAngle = hourTwo => {
+    hourHandDegrees.forEach((hour, i) => {
+      if (hour[i] === hourTwo) {
+        let hourTwoAngle = hour.hourDegree;
+        return hourTwoAngle;
+      } else {
+        console.log("No matching angle found.");
+      }
+    });
+  };
+
+  let findHourOneAngle = hourOne => {
+    hourHandDegrees.forEach((hour, i) => {
+      if (hour[i] === hourOne) {
+        let hourOneAngle = hour.hourDegree;
+        return hourOneAngle;
+      } else {
+        console.log("No matching angle found.");
+      }
+    });
+  };
+  findMinuteAngle();
+  findHourOneAngle();
+  findHourTwoAngle();
+  // let findMinuteAngle = minuteHandDegrees.find((minute) => {
+  //   //const minuteAngle = minuteHandDegrees.minuteDegree;
+  //   const minuteAngle = minute.minuteDegree;
+  //   console.log("The minute angle for that mintue is: ", minuteAngle);
+  //   return minuteAngle;
+  // });
+
+  //findMinuteAngle();
+  //console.log("hourOneDegree is:", hourOneDegree);
+  //return minuteAngle; //hourOneAngle, hourTwoAngle,
+};
+
+//compares angles of two timezones in a 24 hour period and returns matching
+//angles to an array
+let caluclateTheta = (hourOne, hourTwo, minuteHand) => {
+  let matchingAngleArray = [];
+  assignClockDegrees(hourOne, hourTwo, minuteHand);
+  //each angle theta is calculated by subtracting the minute's
+  //angle in degrees from each hour's assigned degree. if this results in a
+  //negative value, 360 is added to make positive and keep the same angle
   let thetaOne = minuteDegree - hourOneDegree;
   console.log(thetaOne);
   let thetaTwo = minuteDegree - hourTwoDegree;
- console.log(thetaTwo);
+  console.log(thetaTwo);
 
-    if (thetaOne < 0) {
-      thetaOne += 360;
-    }
-    if (thetaTwo < 0) {
-      thetaTwo += 360;
-    }
+  if (thetaOne < 0) {
+    thetaOne += 360;
+  }
+  if (thetaTwo < 0) {
+    thetaTwo += 360;
+  }
 
   console.log("Angle one's value is:", thetaOne);
   console.log("Angle two's value is:", thetaTwo);
 
-  let matchingAngleArray = [];
+
 
   //if a match is found, push to an array
   if (thetaOne == thetaTwo) {
     matchingAngleArray.push(hourOne + ":" + minuteHand);
-  }else{
+  } else {
     //TODO update console log to error message when aroundTheClock() is fxnal
     console.log("The angles do no match.");
   }
 
   console.log(matchingAngleArray);
   return matchingAngleArray;
-}
+};
 
 //returns all matching angles between the two timezones for a 24 hour period
 let aroundTheClock = (hourOne, hourTwo, minuteHand) => {
-
-  //TODO ++ time by minute to run through clock +24 hourAngles;
-  //this will require hour incrementing every time minutes reach 60
-
+//this will require hour incrementing every time minutes reach 60
   //24 hour window using moment to include matching am and pm values
   //TODO determine if seconds would be helpful; run with both
-    //const utcTime = moment.utc("2020-07-06T04:15:30Z");
-    //const utcEpoch = moment.utc("2020-07-06T04:15:30Z").unix();
-    //const twentyFour = utcTime.add(24, 'hour');
-    //const twentyFourEpoch = utcTime.add(24, 'hour').unix();
-    // console.log(utcTime);
-    // console.log(utcEpoch);
-    // console.log(twentyFour);
-    // console.log(twentyFourEpoch);
-    //hardcoded hours for now, may be updated to include other planetary hours
-    const hoursInDay = 24;
-    const minutesInHour = 60;
-    const iterations = 1 + hoursInDay * minutesInHour;
-    console.log("The number of iterations is: ", iterations);
-    //TODO update to foreach
-    //for every minute in a 24 hour period
-    for (let i=0; i < iterations ; i++) {
-      caluclateTheta(hourOne, hourTwo, minuteHand);
-      minuteHand++;
-      if (minuteHand == 60) {
-        hourOne++;
-        hourTwo++;
-        if (hourOne > 12) {
-          hourOne -= 12;
-          //checkIfNegative(hourOne);
-        }
-
-        if (hourOne > 12) {
-          hourOne -= 12;
-          //checkIfNegative(hourOne);
-        }
-        minuteHand++;
-        if (minuteHand > 60) {
-          hourOne -= 60;
-          //checkIfNegative(hourOne);
-        }
+  //hardcoded hours for now, may be updated to include other planetary hours
+  const hoursInDay = 24;
+  const minutesInHour = 60;
+  const iterations = 1 + hoursInDay * minutesInHour;
+  console.log("The number of iterations is: ", iterations);
+  //TODO update to foreach
+  //for every minute in a 24 hour period
+  for (let i = 0; i < iterations; i++) {
+    caluclateTheta(hourOne, hourTwo, minuteHand);
+    minuteHand++;
+    if (minuteHand == 60) {
+      hourOne++;
+      hourTwo++;
+      if (hourOne > 12) {
+        hourOne -= 12;
+        //checkIfNegative(hourOne);
       }
-      let hourCounter = 0;
-      hourCounter++;
-      if (hourCounter >= 24) {
-        break;
+
+      if (hourOne > 12) {
+        hourOne -= 12;
+        //checkIfNegative(hourOne);
+      }
+      minuteHand++;
+      if (minuteHand > 60) {
+        hourOne -= 60;
+        //checkIfNegative(hourOne);
       }
     }
-}
+    let hourCounter = 0;
+    hourCounter++;
+    if (hourCounter >= 24) {
+      break;
+    }
+  }
+};
 
 //function to determine the two timezones the angles should be compared to
 let driver = (timezoneOne, timezoneTwo) => {
-
   let timeOne = utcConversion(timezoneOne);
-  let timeTwo =  utcConversion(timezoneTwo);
+  let timeTwo = utcConversion(timezoneTwo);
   console.log("Coverted timezone one: ", timeOne);
   console.log("Coverted timezone two: ", timeTwo);
 
-  let hourOne = timeOne.substring(0,2);
-  let hourTwo = timeTwo.substring(0,2);
+  let hourOne = timeOne.substring(0, 2);
+  let hourTwo = timeTwo.substring(0, 2);
   //no need for both timeOne and timeTwo's minutes since the same
-  let minuteHand = timeOne.substring(3,5);
+  let minuteHand = timeOne.substring(3, 5);
   console.log("Hour substing one:", hourOne);
   console.log("Hour substing two:", hourTwo);
   console.log("Minute substring:", minuteHand);
 
   return aroundTheClock(hourOne, hourTwo, minuteHand);
-}
+};
 
 driver("EST", "PST");
 
