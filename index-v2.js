@@ -152,27 +152,29 @@ let assignClockDegrees = () => {
     typeOf(hourHandDegrees);
     typeOf(minuteHandDegrees);
 
-    let findHourAngle = () => {
-      console.log("Entering findHourAngle fxn:");
-      let findHour = hourHandDegrees.find(hor => hor.hr == hour1);
-      typeOf(findHour);
-      console.log(findHour);
-      let hourAngle = hourHandDegrees.hourDegree;
-      console.log("The hour's angle from the array is:", hourAngle);
-      typeOf(hourAngle);
-      return hourAngle;
+    let findHourAngle = (hour1) => {
+      hourHandDegrees.forEach((item, i) => {
+        if (item == hour1) {
+          let hourAngle = item.hourDegree;
+          typeOf(hourAngle);
+          return hourAngle;
+        }
+      });
+    }
+
+    //let findHourAngle = hourHandDegrees.find(areHoursEqual(hour1));
+
       //if {
       //}else {
       //     console.log("No matching angle found for hour.");
       // }
     //});
- }
 
-    let findMinuteAngle = () => {
-        minuteHandDegrees.forEach(min => {
+    let findMinuteAngle = (minuteHand) => {
+      minuteHandDegrees.forEach((min, i) => {
           console.log("Entering findMinuteAngle fxn:");
-          if (min.minute == minHand) {
-            let minuteAngle = minuteDegrees[min].minuteDegree;
+          if (min == minuteHand) {
+            let minuteAngle = min.minuteDegree;
             console.log("The minutes's angle from the array is:", minuteAngle);
             typeOf(minuteAngle);
             return minuteAngle;
