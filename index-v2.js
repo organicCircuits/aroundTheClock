@@ -106,7 +106,7 @@ let assignClockDegrees = () => {
     for (let i = 0; hourDegree <= 360; i++) {
       console.log("the current hour is:", hr);
       hourObject[hr[i]] = hourDegree;
-      hourHandDegrees.push([hr, hourDegree]);
+      hourHandDegrees.push({"hour": hr, "degree": hourDegree});
       hourDegree += 30;
       hr++;
     }
@@ -117,7 +117,7 @@ let assignClockDegrees = () => {
     for (let i = 0; minuteDegree <= 360; i++)  {
       console.log("the current minute is:", minute);
       minuteObject[minute[i]] = minuteDegree;
-      minuteHandDegrees.push([minute, minuteDegree]);
+      minuteHandDegrees.push({"minute": minute, "degree" : minuteDegree});
       minuteDegree += 6;
       minute++;
     }
@@ -140,35 +140,24 @@ let assignClockDegrees = () => {
   //negative value, 360 is added to make positive and keep the same angle
   let caluclateTheta = (hour, minuteHand) => {
 
-    //hardocoded temporarily to test fxn
-    let hour1 = 1;
-    let minHand = 10;
     let { minuteHandDegrees, hourHandDegrees } = assignClockDegrees();
-    //typeOf(assignClkDgrs);
-    //let hourDegrees = assignClkDgrs.hourHandDegrees;
     console.log("The hours and their degrees are:", hourHandDegrees);
-    //let minuteDegrees = assignClkDgrs.minuteHandDegrees;
     console.log("The minutes and their degrees are:", minuteHandDegrees);
     typeOf(hourHandDegrees);
     typeOf(minuteHandDegrees);
 
-    let findHourAngle = (hour1) => {
+    let findHourAngle = (hour) => {
       hourHandDegrees.forEach((item, i) => {
-        if (item == hour1) {
-          let hourAngle = item.hourDegree;
+        if (item == hour) {
+          let hourAngle = item[i].hourDegree;
           typeOf(hourAngle);
           return hourAngle;
+        }else {
+            console.log("No matching angle found for hour.");
         }
       });
     }
-
     //let findHourAngle = hourHandDegrees.find(areHoursEqual(hour1));
-
-      //if {
-      //}else {
-      //     console.log("No matching angle found for hour.");
-      // }
-    //});
 
     let findMinuteAngle = (minuteHand) => {
       minuteHandDegrees.forEach((min, i) => {
@@ -187,7 +176,7 @@ let assignClockDegrees = () => {
       });
     }
 
-    let hourTheta = findHourAngle(hour1);
+    let hourTheta = findHourAngle(hour);
     typeOf(hourTheta);
     let minuteTheta = findMinuteAngle(minuteHand);
     typeOf(minuteTheta);
@@ -231,7 +220,6 @@ let aroundTheClock = (hour, minuteHand) => {
   const minutesInHour = 5;
   const iterations = 1 + hoursInDay * minutesInHour;
   console.log("The number of iterations is: ", iterations);
-  //TODO update to foreach
   for (let i = 0; i < iterations; i++) {
     return caluclateTheta(hour, minuteHand);
   }
@@ -264,60 +252,3 @@ let driver = (timezoneOne, timezoneTwo) => {
 };
 
 driver("EST", "PST");
-
-// const matchingAngles = twentyFour.map(time => {
-//   return caluclateTheta(hourHandOne, hourHandTwo, minuteHand);
-// });
-
-//generic hour for counter
-//let hour = 0;
-// let adjustTime = () => {
-//
-//   if (minute == 60) {
-//   hour1++;
-//   //hour2++;
-//   minute = 0;
-//   }
-//
-//   if (hour1 > 12) {
-//     hour1 -= 12;
-//     checkIfNegative(hourOne);
-//   }
-//
-//   // if (hour2 > 12) {
-//   //   hour2 -= 12;
-//   //   checkIfNegative(hourTwo);
-//   // }
-//
-//   minute++;
-//   if (minuteHand > 60 || minute > 60) {
-//     minuteHand -= 60;
-//     minute -= 60;
-//     //TODO make this work for mintues as well
-//     //checkIfNegative(hourOne);
-//   }
-//
-// }
-// let hourCounter = 0;
-// hourCounter++;
-// if (hourCounter >= 24) {
-//   break;
-// }
-
-  // let findHourOneAngle = (hourOne) => {
-  //     hourHandDegrees.forEach((hour, i) => {
-  //       if (hour[i] === hourOne) {
-  //         let hourOneAngle = hour.hourDegree;
-  //         return hourOneAngle;
-  //       } else {
-  //       //TODO add string || number check to code
-  //       console.log("No matching angle found for hour one.");
-  //     }
-  //   });
-  // };
-  // let findMinuteAngle = minuteHandDegrees.find((minute) => {
-  //   //const minuteAngle = minuteHandDegrees.minuteDegree;
-  //   const minuteAngle = minute.minuteDegree;
-  //   console.log("The minute angle for that mintue is: ", minuteAngle);
-  //   return minuteAngle;
-  // });
