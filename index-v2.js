@@ -9,6 +9,7 @@ const moment = require("moment");
 
 //moment to return current time in HH:mm:ss format
 const utcTime = moment.utc().format("HH:mm:ss");
+let typeOf = (type) => console.log(typeof (type));
 //TODO add other time zones
 //TODO create military/civilian time conversion
 let utcConversion = timezone => {
@@ -83,34 +84,39 @@ let checkIfNegative = hour => {
 
 //assigns each hand an agle with 90 degrees being 12 o'clock and 0 at 3 o'clock
 let assignClockDegrees = () => {
-
-  //console.log("The type of hour1 is: ", typeOf(hour1));
-  //let hour2 = Number(hourTwo);
-  //console.log("The type of hour1 is: ", typeOf(hour2));
-  //console.log("The type of minute is: ", typeOf(minute));
+  console.log("Entered assignClockDegrees loop.");
   let hourHandDegrees = [];
+  let hourObject = {};
   let minuteHandDegrees = [];
+  let minuteObject = {};
   let minute = 0;
   let hr = 0;
   let hourDegree = 0;
   let minuteDegree = 0;
   console.log("The hour degree is currently: ", hourDegree);
   console.log("The minute degree is currently: ", minuteDegree);
+  typeOf(minute);
+  typeOf(hr);
+  typeOf(hourDegree);
+  typeOf(minuteDegree);
 
   let calculateHours = (hr, hourDegree) => {
-
-    while (hourDegree <= 360) {
+    console.log("Entered calculate hours loop.");
+    for (let i = 0; hourDegree <= 360; i++) {
       console.log("the current hour is:", hr);
-      hourHandDegrees.push([{ hr, hourDegree }]);
-      hourDegree = hourDegree + 30;
+      hourObject[hr[i]] = hourDegree;
+      hourHandDegrees.push([hr, hourDegree]);
+      hourDegree += 30;
       hr++;
     }
   };
 
   let calculateMinutes = (minute, minuteDegree) => {
-    while (minuteDegree <= 360) {
+    console.log("Entered calculate minutes loop.");
+    for (let i = 0; minuteDegree <= 360; i++)  {
       console.log("the current minute is:", minute);
-      minuteHandDegrees.push([{ minute, minuteDegree}]);
+      minuteObject[minute[i]] = minuteDegree;
+      minuteHandDegrees.push([minute, minuteDegree]);
       minuteDegree += 6;
       minute++;
     }
@@ -119,10 +125,13 @@ let assignClockDegrees = () => {
   calculateHours(hr, hourDegree);
   calculateMinutes(minute, hourDegree);
 
-  console.log("The clock hours and their angle are:", hourHandDegrees);
-  console.log("The clock minutes and their angle are:", minuteHandDegrees);
+  typeOf(hourHandDegrees);
+  typeOf(minuteHandDegrees);
 
-  return minuteHandDegrees, hourHandDegrees;
+  console.log("The clock hours and their angles are:", hourHandDegrees);
+  console.log("The clock minutes and their angles are:", minuteHandDegrees);
+
+  return { minuteHandDegrees, hourHandDegrees };
   //generic hour for counter
   //let hour = 0;
   // let adjustTime = () => {
@@ -161,12 +170,15 @@ let assignClockDegrees = () => {
 
     //  let findAllAngles = () => {
     //}
+    console.log("Entering calculateTheta fxn.");
     let assignClkDgrs = assignClockDegrees();
+    typeOf(assignClkDgrs);
     let minuteDegrees = assignClkDgrs.minuteHandDegrees;
+    console.log(minuteDegrees);
     let hourDegrees = assignClkDgrs.hourHandDegrees;
-    let typeOf = (type) => console.log(typeof (type));
-    console.log(typeOf(minuteDegrees));
-    console.log(typeOf(hourDegrees));
+    console.log(hourDegrees);
+    typeOf(minuteDegrees);
+    typeOf(hourDegrees);
 
     let findMinuteAngle = (minuteDegrees, minuteHand) => {
         //try {
