@@ -191,18 +191,18 @@ let assignClockDegrees = (hourOne, hourTwo, minuteHand) => {
 //each angle theta is calculated by subtracting the minute's
 //angle in degrees from each hour's assigned degree. if this results in a
 //negative value, 360 is added to make positive and keep the same angle
-let caluclateTheta = (hourOne, hourTwo, minuteHand) => {
+let caluclateTheta = (hourOne, minuteHand) => {
 
     //  let findAllAngles = () => {
     //}
     //assignClockDegrees();
     let miniuteTheta = assignClockDegrees().findMinuteAngle(minuteHand);
-    let hourOneTheta = assignClockDegrees().findHourOneAngle(hourOne);
-    let hourTwoTheta = assignClockDegrees().findHourTwoAngle(hourTwo);
+    let hourTheta = assignClockDegrees().findHourOneAngle(hour);
+    //let hourTwoTheta = assignClockDegrees().findHourTwoAngle(hourTwo);
     //if (typeOf(minuteAngle) == number && typeOf(hourOneAngle) == number) {
 
-      let thetaHourOne = miniuteTheta - hourOneTheta;
-      let thetaHourTwo = miniuteTheta - hourTwoTheta;
+      let thetaHourOne = miniuteTheta - hourTheta;
+      let thetaHourTwo = miniuteTheta - hourTheta;
 
       if (thetaHourOne < 0) {
         thetaHourOne += 360;
