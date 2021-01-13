@@ -125,7 +125,10 @@ let assignClockDegrees = () => {
   };
 }
 
-let { minuteHandDegrees, hourHandDegrees } = assignClockDegrees();
+let {
+  minuteHandDegrees,
+  hourHandDegrees
+} = assignClockDegrees();
 console.log("The hours and their degrees are:", hourHandDegrees);
 console.log("The minutes and their degrees are:", minuteHandDegrees);
 
@@ -185,7 +188,7 @@ let findMinuteAngle = (minuteHand) => {
     //test either at 0-9 min manually on the hour or mocha/chai
     numMinute = Number(minuteHand);
     typeOf(numMinute);
-    if (numMinute < 10) {
+    if (numMinute < 10 || numMinute === 00) {
       strMinute = minuteHand.substring(1, 2);
       numMinute = Number(strMinute);
     }
@@ -221,18 +224,45 @@ let doAnglesMatch = (hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta) =
 //used to return theta between the hour and minute hand for each minute in 24 hrs
 let aroundTheClock = (hour, minuteHand) => {
   const hoursInDay = 2;
-  const minutesInHour = 5;
+  const minutesInHour = 2;
   const iterations = 1 + hoursInDay * minutesInHour;
   console.log("The number of iterations is: ", iterations);
-  let hrAngle = findHourAngle(hour);
-  let minAngle = findMinuteAngle(minuteHand);
-  typeOf(hrAngle);
-  typeOf(minAngle);
-  //for (let i = 0; i < iterations; i++) {
-  return caluclateTheta(hrAngle, minAngle);
-  //}
-  //return matchingAngleArray;
-};
+  let arrayOfThetas = [];
+
+  for (let i = 0; i < iterations; i++) {
+    let hourCounter = Number(hour);
+    console.log("The hour counter is starting at:", hourCounter);
+    typeOf(hourCounter);
+    let minuteDayCounter = Number(minuteHand);
+    console.log("The minute day counter is starting at:", minuteDayCounter);
+    typeOf(minuteDayCounter);
+
+    if (minuteDayCounter === 60) {
+      hourCounter++;
+      minuteDayCounter = 0;
+    }
+
+    if (hourCounter > 12) {
+      hourCounter = 0;
+    }
+
+    let hrAngle = findHourAngle(hour);
+    let minAngle = findMinuteAngle(minuteHand);
+    typeOf(hrAngle);
+    typeOf(minAngle);
+    //for (let i = 0; i < iterations; i++) {
+    let theta = caluclateTheta(hrAngle, minAngle);
+    let hoursAndMinutes = `${hour}:${minuteHand}`;
+    console.log("aroundTheClock loop time is:", hoursAndMinutes);
+    arrayOfThetas.push({time:minuteHand, theta: theta});
+    console.log(arrayOfThetas);
+    minuteDayCounter++;
+  }
+}
+
+// let adjustTime = () => {
+
+//   }
 
 //user inputs two timezones to determine comparative angles formed by the
 //hour and minute hand of the converted current utc time
