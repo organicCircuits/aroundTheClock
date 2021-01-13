@@ -137,13 +137,11 @@ console.log("The minutes and their degrees are:", minuteHandDegrees);
 //negative value, 360 is added to make positive and keep the same angle
 let caluclateTheta = (hourAngle, minuteAngle) => {
 
-  // typeOf(hourAngle);
-  // typeOf(minuteAngle);
   //if (typeOf(minuteAngle) == number && typeOf(hourOneAngle) == number) {
   //try {
-  console.log("Beginning to calculate theta:");
-  console.log("hourTheta is:", hourAngle);
-  console.log("minuteTheta is:", minuteAngle);
+  // console.log("Beginning to calculate theta:");
+  // console.log("hourTheta is:", hourAngle);
+  // console.log("minuteTheta is:", minuteAngle);
   let theta = minuteAngle - hourAngle;
   typeOf(theta);
   // } catch (err){
@@ -162,7 +160,7 @@ let findHourAngle = (hour) => {
   const hourAngleKeys = Object.values(hourHandDegrees[1]);
   let hourAngle = 0;
   hourKeys.forEach(key => {
-    console.log("Entering findHourAngle fxn:");
+    //console.log("Entering findHourAngle fxn:");
     if (hour === key) {
       console.log("Matching hour found for key: ", key);
       let hourAngleArray = Object.values(hourHandDegrees[hour]);
@@ -173,7 +171,7 @@ let findHourAngle = (hour) => {
     }
   })
   console.log("Exiting findHourAngle fxn.");
-  typeOf(hourAngle);
+  //typeOf(hourAngle);
   return hourAngle;
 }
 
@@ -182,22 +180,22 @@ let findMinuteAngle = (minuteHand) => {
   const minuteAngleKeys = Object.values(minuteHandDegrees[1]);
   let minuteAngle = 0;
   minuteKeys.find(key => {
-    console.log("Entering findMinuteAngle fxn:");
-    console.log("Current minute is:", minuteHand);
+    // console.log("Entering findMinuteAngle fxn:");
+    // console.log("Current minute is:", minuteHand);
     let strMinute = minuteHand;
     //test either at 0-9 min manually on the hour or mocha/chai
     numMinute = Number(minuteHand);
-    typeOf(numMinute);
+    //typeOf(numMinute);
     if (numMinute < 10 || numMinute === 00) {
       strMinute = minuteHand.substring(1, 2);
       numMinute = Number(strMinute);
     }
 
     if (minuteHand === key) {
-      console.log("Matching minute found for key: ", key);
+      //console.log("Matching minute found for key: ", key);
       let minuteAngleArray = Object.values(minuteHandDegrees[minuteHand]);
       minuteAngle = minuteAngleArray[1];
-      console.log(`The matching angle for minute ${minuteHand} is ${minuteAngle}`);
+      //console.log(`The matching angle for minute ${minuteHand} is ${minuteAngle}`);
     } else {
       return;
     }
@@ -206,18 +204,132 @@ let findMinuteAngle = (minuteHand) => {
   console.log("exiting findMinuteAngle fxn.");
 }
 
-let doAnglesMatch = (hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta) => { //hr1, hr2, minHand, t18, t28
-  //if a match is found, push to an array
-  if (timeOneTheta === timeTwoTheta) {
-    console.log("matching found:", timeOneTheta);
-    matchingAngleArray.push([timeOneTheta]);
-  } else {
-    const msg404 = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand} do not have any matching angles....something went wrong.`;
-    console.log(msg404);
-  }
-  console.log("The matching angle array is: ", matchingAngleArray);
-  const msgMatch = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand}'s time have the following matching angles: ${matchingAngleArray}`;
-  console.log(msgMatch);
+  let thetaMatch = (hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta) => {
+    let mergedThetas = [210, 216, 222, 216, 222, 216, 222, 228, 234 ];
+
+    // let mergedThetas = timeOneTheta.concat(timeTwoTheta);
+    //console.log("combined theta arrays:", mergedThetas);
+    // const thetaKeys = Object.keys(mergedThetas);
+    // console.log("merged theta keys:", thetaKeys);
+    // const thetaValues = Object.values(mergedThetas);
+    // console.log("merged theta values:", thetaValues);
+    //TODO if keeping as object, update variable name
+    //let matchingAngleArray = {};
+    const initialValue = 0;
+
+    // mergedThetas.push(12);
+    // mergedThetas.push(18);
+    // mergedThetas.push(138);
+    console.log("raw merged theta array with pushed values:", mergedThetas);
+    //let objectThetas = Object.assign({}, mergedThetas);
+    //console.log("Object theta is:", objectThetas);
+    // const thetaKeys = Object.keys(mergedThetas);
+    // const thetaValues = Object.values(mergedThetas);
+    // console.log("The theta keys are:", thetaKeys);
+    // console.log("The theta values are:", thetaValues);
+    // typeOf(thetaKeys);
+    // typeOf(thetaValues);
+
+    // let getThetaValues = (thetaValues) => {
+    //   mergedThetas.forEach(value => {
+    //     //let a = Object.values(thetaValues);
+    //   // if (value === a) {
+    //   let returnedThetaValue = Object.values(thetaValues);
+    //   console.log("returned theta values are:", returnedThetaValue);
+    //   return returnedThetaValue;
+    // })};
+    //
+    // getThetaValues(thetaValues);
+
+    //let matchingThetas = () => {
+      let matchingThetas = mergedThetas.map(thta => {
+      //thetaValue = Object.values(mergedThetas);
+      // return thetaValue;
+      return {
+        count: 1,
+        thta: thta
+      }
+      console.log("THE VALUES FOR THETA ARRAY ARE:", thetaValues);
+    }).reduce((a,b) => {
+      a[b.thta] = (a[b.thta] || 0) + b.count;
+          console.log("current a:", a);
+          return a;
+    }, {});
+    let matchingAngleArray = Object.keys(matchingThetas).filter((a) => matchingThetas[a] > 1);
+    console.log("The matching thetas are: ", matchingAngleArray);
+
+    //matchingThetas();
+
+    // let matchingThetas = () => {
+    //   const thetaKeys = Object.keys(mergedThetas);
+    //   const thetaValues = Object.values(mergedThetas);
+    //   let thetaValue = 0;
+    //   console.log("The theta keys are:", thetaKeys);
+    //   console.log("The theta values are:", thetaValues);
+    //   mergedThetas.forEach(key => {
+    //   thetaValue = Object.values(mergedThetas);
+    //   console.log("THE VALUES FOR THETA ARRAY ARE:", thetaValues);
+    // }).reduce((a,b) => {
+    //   a[b.thetaValues] = (a[b.thetaValues] || 0) + b.count;
+    //       console.log("current a:", a);
+    //       return a;
+    // })};
+
+    //matchingThetas();
+
+    // let matchingThetas = mergedThetas.map(value => {
+    //   const thetaValues = Object.values(mergedThetas);
+    //   return {
+    //     theta: value
+    //   }}).reduce((a,b) => {
+    //     a[b.theta] = (a[b.theta] || 0) + b.count;
+    //     console.log("current a:", a);
+    //     return a;
+    //   });
+
+    //   if (key in mergedThetas) {
+    //     matchingAngleArray = Object.assign({}, mergedThetas[x]);
+    //   } else {
+    //     console.log("not sure what to put here yet.");
+    // }
+
+    //
+    // mergedThetas.forEach(key => {
+    //   if(key === thetaValues[key]){
+    //     const msgMatch = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand}'s time have the following matching angles: ${matchingAngleArray}`;
+    //     console.log(msgMatch);
+    //     matchingAngleArray.push(msgMatch);
+    //   }
+    // })
+
+    lenMatchingArray = matchingAngleArray.length;
+    if (lenMatchingArray === 0) {
+      const msg404 = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand} do not have any matching angles....something went wrong.`;
+      console.log(msg404);
+    }
+
+    // const hourKeys = Object.keys(hourHandDegrees);
+    // const hourAngleKeys = Object.values(hourHandDegrees[1]);
+    // let hourAngle = 0;
+    // hourKeys.forEach(key => {
+    //   console.log("Entering findHourAngle fxn:");
+    //   if (hour === key) {
+    //     console.log("Matching hour found for key: ", key);
+    //     let hourAngleArray = Object.values(hourHandDegrees[hour]);
+    //     hourAngle = hourAngleArray[1];
+
+    // mergedThetas.filter(key => {
+    //   //let theeeta = thta[theta];
+    //   if () {
+    //     matchingAngleArray.push({time: timeOneTheta, theta: theta});
+    //   }
+    //   //theeeta[theta] = true;
+    //
+    // })
+
+  // console.log("The matching angle array is: ", matchingAngleArray);
+  // const msgMatch = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand}'s time have the following matching angles: ${matchingAngleArray}`;
+  // console.log(msgMatch);
   return matchingAngleArray;
 }
 
@@ -235,11 +347,11 @@ let aroundTheClock = (hour, minuteHand) => {
     let nHr = Number(hour);
     let hourCounter = nHr;
     console.log("The hour counter is starting at:", hourCounter);
-    typeOf(hourCounter);
+    //typeOf(hourCounter);
     let nMin = Number(minuteHand);
     let minuteDayCounter = nMin;
     console.log("The minute day counter is starting at:", minuteDayCounter);
-    typeOf(minuteDayCounter);
+    //typeOf(minuteDayCounter);
 
     for (let i = 0; i < iterations; i++) {
 
@@ -258,30 +370,23 @@ let aroundTheClock = (hour, minuteHand) => {
       console.log("current hour angle:", hrAngle);
       let minAngle = findMinuteAngle(strMinuteDayCounter);
       console.log("current minute angle:", minAngle);
-      typeOf(hrAngle);
-      typeOf(minAngle);
-      //for (let i = 0; i < iterations; i++) {
+      // typeOf(hrAngle);
+      // typeOf(minAngle);
       let theta = caluclateTheta(hrAngle, minAngle);
-      console.log("theta for iteration:", theta);
+      typeOf(theta);
       let hoursAndMinutes = `${hourCounter}:${minuteDayCounter}`;
       console.log("aroundTheClock loop time is:", hoursAndMinutes);
-      arrayOfThetas.push({
-        time: hoursAndMinutes,
-        theta: theta
-      });
-      console.log(arrayOfThetas);
+      arrayOfThetas.push(
+        theta
+      );
+      console.log("The array of thetas are:", arrayOfThetas);
       minuteDayCounter += 1;
       console.log("current minute counter:", minuteDayCounter);
-      //adjustTime(hourCounter, minuteHand);
     }
   }
   adjustTime();
   return arrayOfThetas;
 }
-
-// let adjustTime = () => {
-
-//   }
 
 //user inputs two timezones to determine comparative angles formed by the
 //hour and minute hand of the converted current utc time
@@ -293,7 +398,7 @@ let driver = (timezoneOne, timezoneTwo) => {
 
   let hourOne = timeOne.substring(0, 1);
   let hourTwo = timeTwo.substring(0, 1);
-  let minuteHand = timeOne.substring(2, 5);
+  let minuteHand = timeOne.substring(3, 5);
 
   console.log("Hour substing one:", hourOne);
   console.log("Hour substing two:", hourTwo);
@@ -301,9 +406,9 @@ let driver = (timezoneOne, timezoneTwo) => {
 
   let timeOneTheta = aroundTheClock(hourOne, minuteHand);
   let timeTwoTheta = aroundTheClock(hourTwo, minuteHand);
-  typeOf(timeOneTheta);
-  typeOf(timeTwoTheta);
-  doAnglesMatch(hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta);
+  // typeOf(timeOneTheta);
+  // typeOf(timeTwoTheta);
+  thetaMatch(hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta);
   console.log("The times with matching angles are: ", matchingAngleArray);
   return matchingAngleArray;
 };
