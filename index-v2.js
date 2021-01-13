@@ -26,7 +26,7 @@ let utcConversion = timezone => {
     case "EDT":
       //east coast time is 5 hours behind utc
       //other timezones follow east to west
-      let eastCoastHour = utcHour - 4;
+      let eastCoastHour = utcHour - 5;
       //checkIfNegative returns only positive values for the conversion
       let eastCoastPositive = checkIfNegative(eastCoastHour);
       console.log("The east coast hour is: ", eastCoastPositive);
@@ -36,7 +36,7 @@ let utcConversion = timezone => {
       return eastCoastTime;
     case "CST":
     case "CDT":
-      let centralHour = utcHour - 5;
+      let centralHour = utcHour - 6;
       let mountainPositive = checkIfNegative(centralHour);
       console.log(hour);
       const centralTime = mountainPositive + ":" + minutes;
@@ -44,7 +44,7 @@ let utcConversion = timezone => {
       return centralTime;
     case "MST":
     case "MDT":
-      const mountainHour = utcHour - 6;
+      const mountainHour = utcHour - 7;
       let hour = checkIfNegative(mountainHour);
       console.log(hour);
       const mountainTime = mountainPositive + ":" + minutes;
@@ -52,7 +52,7 @@ let utcConversion = timezone => {
       return mountainTime;
     case "PST":
     case "PDT":
-      const pacificHour = utcHour - 7;
+      const pacificHour = utcHour - 8;
       let pacificPositive = checkIfNegative(pacificHour);
       console.log("The pacific hour is: ", pacificPositive);
       const pacificTime = pacificPositive + ":" + minutes;
@@ -74,8 +74,8 @@ let checkIfNegative = hour => {
     hour += 12;
   }
   if (hour < 0) {
-    console.log("The normalized hour was zero or negative:", hour);
-    hour += 11; //to account for adding over 0
+    console.log("The normalized hour was negative:", hour);
+    hour += 13;
     return hour;
   } else {
     console.log("The hour was positive:", hour);
@@ -87,50 +87,42 @@ let checkIfNegative = hour => {
 let assignClockDegrees = () => {
   console.log("Entered assignClockDegrees loop.");
   let hourHandDegrees = [];
-  let hourObject = {};
   let minuteHandDegrees = [];
-  let minuteObject = {};
-  let minute = 0;
+  let mn = 0;
   let hr = 0;
   let hourDegree = 0;
   let minuteDegree = 0;
-  console.log("The hour degree is currently: ", hourDegree);
-  console.log("The minute degree is currently: ", minuteDegree);
-  typeOf(minute);
-  typeOf(hr);
-  typeOf(hourDegree);
-  typeOf(minuteDegree);
+  //console.log("The hour degree is currently: ", hourDegree);
+  //console.log("The minute degree is currently: ", minuteDegree);
+  // typeOf(minute);
+  // typeOf(hr);
+  // typeOf(hourDegree);
+  // typeOf(minuteDegree);
 
   let calculateHours = (hr, hourDegree) => {
     console.log("Entered calculate hours loop.");
-    for (let i = 0; hourDegree <= 360; i++) {
-      console.log("the current hour is:", hr);
-      hourObject[hr[i]] = hourDegree;
-      hourHandDegrees.push({"hour": hr, "degree": hourDegree});
+    for (let i = 1; hourDegree <= 360; i++) {
+      hourHandDegrees.push({hour: hr, hourDegree: hourDegree}); //"hour": hr, "degree": hourDegree
       hourDegree += 30;
       hr++;
     }
   };
 
-  let calculateMinutes = (minute, minuteDegree) => {
+  let calculateMinutes = (mn, minuteDegree) => {
     console.log("Entered calculate minutes loop.");
-    for (let i = 0; minuteDegree <= 360; i++)  {
-      console.log("the current minute is:", minute);
-      minuteObject[minute[i]] = minuteDegree;
-      minuteHandDegrees.push({"minute": minute, "degree" : minuteDegree});
+    for (let i = 1; minuteDegree <= 360; i++)  {
+      minuteHandDegrees.push({minute : mn, minuteDegree: minuteDegree}); //"minute": minute, "degree" : minuteDegree
+      //Object.assign(minuteHandDegrees, {minute: minuteDegree});
       minuteDegree += 6;
-      minute++;
+      mn++;
     }
   };
 
   calculateHours(hr, hourDegree);
-  calculateMinutes(minute, hourDegree);
+  calculateMinutes(mn, minuteDegree);
 
   typeOf(hourHandDegrees);
   typeOf(minuteHandDegrees);
-
-  // console.log("The clock hours and their angles are:", hourHandDegrees);
-  // console.log("The clock minutes and their angles are:", minuteHandDegrees);
 
   return { minuteHandDegrees, hourHandDegrees };
   }
@@ -145,56 +137,82 @@ let assignClockDegrees = () => {
     console.log("The minutes and their degrees are:", minuteHandDegrees);
     typeOf(hourHandDegrees);
     typeOf(minuteHandDegrees);
+    const minuteKeys = Object.keys(minuteHandDegrees);
+    const hourKeys = Object.keys(hourHandDegrees);
+    const minuteAngleKeys = Object.values(minuteHandDegrees[1]);
+    const hourAngleKeys = Object.values(hourHandDegrees[1]);
+    let hrDegree = hourHandDegrees.hourDegree;
+    // console.log("The hour keys are:", hourKeys);
+    // console.log("The minute keys are:", minuteKeys);
+    // console.log("The hour angle keys are:", hourAngleKeys);
+    // console.log("The minute angle keys are:", minuteAngleKeys);
+
 
     let findHourAngle = (hour) => {
-      hourHandDegrees.forEach((item, i) => {
-        if (item == hour) {
-          let hourAngle = item[i].hourDegree;
+      hourKeys.forEach(key => {
+        typeOf(hour);
+        let strHour = hour.toString();
+        // console.log("The float hour is:", strHour);
+        // console.log("The current key is:", key);
+        typeOf(strHour);
+        typeOf(key);
+        if (strHour === key) {
+          console.log("Matching hour found for key: ", key);
+          let hourAngleArray = Object.values(hourHandDegrees[hour]);
+          let hourAngle = hourAngleArray[1];
           typeOf(hourAngle);
-          return hourAngle;
+          let hourAngleNum = Number(hourAngle);
+          typeOf(hourAngleNum);
+          console.log(`The matching angle for hour ${hour} is ${hourAngleNum}`);
+          return hourAngleNum;
         }else {
-            console.log("No matching angle found for hour.");
+          return;
+          //console.log("No matching angle found for key:", key);
         }
-      });
+      })
     }
-    //let findHourAngle = hourHandDegrees.find(areHoursEqual(hour1));
 
     let findMinuteAngle = (minuteHand) => {
-      minuteHandDegrees.forEach((min, i) => {
-          console.log("Entering findMinuteAngle fxn:");
-          if (min == minuteHand) {
-            let minuteAngle = min.minuteDegree;
-            console.log("The minutes's angle from the array is:", minuteAngle);
-            typeOf(minuteAngle);
-            return minuteAngle;
-          } else {
-            console.log("No matching angle found for minutes.");
+        minuteKeys.forEach(key => {
+          typeOf(minuteHand);
+          let strMinute = minuteHand.toString();
+          if (minuteHand < 10) {
+            strMinute = minute.toString().substring(1,2);
           }
+          //strMinute.toString();
+          if (strMinute === key) {
+            console.log("Matching minute found for key: ", key);
+            let minuteAngleArray = Object.values(minuteHandDegrees[minuteHand]);
+            let minuteAngle = minuteAngleArray[1];
+            typeOf(minuteAngle);
+            let minuteAngleNum = Number(minuteAngle);
+            typeOf(minuteAngleNum);
+            console.log(minuteAngleNum);
+            console.log(`The matching angle for minute ${minuteHand} is ${minuteAngleNum}`);
+            return minuteAngleNum;
+          }else {
+            return;
+            //console.log("No matching angle found for minute.");
+          }
+        })
+      }
       // } catch (err){
       //   console.log("Something went wrong.");
       // }
-      });
-    }
 
     let hourTheta = findHourAngle(hour);
-    typeOf(hourTheta);
     let minuteTheta = findMinuteAngle(minuteHand);
+    typeOf(hourTheta);
     typeOf(minuteTheta);
     //if (typeOf(minuteAngle) == number && typeOf(hourOneAngle) == number) {
-
       let theta = minuteTheta - hourTheta;
-      //let thetaHourTwo = miniuteTheta - hourTwoTheta;
       typeof(theta);
 
       if (theta < 0) {
         theta += 360;
       }
-      // if (thetaHourTwo < 0) {
-      //   thetaHourTwo += 360;
-      // }
-      console.log("Theta for this time is:", theta);
-      //console.log("Angle two's value is:", thetaHourTwo);
       //}
+    console.log("Theta for this time is:", theta);
     return theta;
   }
 
@@ -215,7 +233,6 @@ let assignClockDegrees = () => {
 
 //used to return theta between the hour and minute hand for each minute in 24 hrs
 let aroundTheClock = (hour, minuteHand) => {
-  //TODO add seconds to avoid skipping coverage of angles
   const hoursInDay = 4;
   const minutesInHour = 5;
   const iterations = 1 + hoursInDay * minutesInHour;
@@ -252,3 +269,16 @@ let driver = (timezoneOne, timezoneTwo) => {
 };
 
 driver("EST", "PST");
+
+    // let findHourAngle = (hour) => {
+    //   hourHandDegrees.forEach((item, i) => {
+    //     if (item == hour) {
+    //       let hourAngle = item[i].hourDegree;
+    //       typeOf(hourAngle);
+    //       return hourAngle;
+    //     }else {
+    //         console.log("No matching angle found for hour.");
+    //     }
+    //   });
+    // }
+    //let findHourAngle = hourHandDegrees.find(areHoursEqual(hour1));
