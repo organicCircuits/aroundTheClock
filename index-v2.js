@@ -24,10 +24,10 @@ let utcConversion = timezone => {
   switch (timezone) {
     case "EST":
     case "EDT":
-      //east coast time is 5 hours behind utc
+      //east coast time is 5 hours behind utc;
       //other timezones follow east to west
       let eastCoastHour = utcHour - 5;
-      //checkIfNegative returns only positive values for the conversion
+      //checkIfNegative returns positive values after conversion
       let eastCoastPositive = checkIfNegative(eastCoastHour);
       console.log("The east coast hour is: ", eastCoastPositive);
       //construct the actual clock value
@@ -57,7 +57,6 @@ let utcConversion = timezone => {
       console.log("The pacific hour is: ", pacificPositive);
       const pacificTime = pacificPositive + ":" + minutes;
       console.log("The equivalent Pacific coast time is: ", pacificTime);
-      //TODO return as time, not as specific timezone
       return pacificTime;
     default:
       const msg = "Eoth talich danya: A valid timezone was not entered.";
@@ -67,7 +66,7 @@ let utcConversion = timezone => {
 };
 
 //checks if the resulting conversion from utc resulted in zero or a negative
-//number. If so, it adds 12 or 13 to correspond to actual clock values
+//number. if so, it adds 12 or 13 to correspond to actual clock values
 let checkIfNegative = hour => {
   if (hour == 0) {
     console.log("The normalized hour was zero:", hour);
@@ -83,7 +82,7 @@ let checkIfNegative = hour => {
   }
 };
 
-//assigns each hand an agle with 90 degrees being 12 o'clock and 0 at 3 o'clock
+//assigns each hand an angle with 0/360 degrees being 12 o'clock and 90 degrees at 3
 let assignClockDegrees = () => {
   console.log("Entered assignClockDegrees loop.");
   let hourHandDegrees = [];
@@ -92,8 +91,6 @@ let assignClockDegrees = () => {
   let hr = 0;
   let hourDegree = 0;
   let minuteDegree = 0;
-  //console.log("current hour degree: ", hourDegree);
-  //console.log("current minute degree: ", minuteDegree);
 
   let calculateHours = (hr, hourDegree) => {
     console.log("Entered calculate hours loop.");
@@ -184,9 +181,7 @@ let findMinuteAngle = (minuteHand) => {
   minuteKeys.find(key => {
     console.log("Entering findMinuteAngle fxn:");
     console.log("Current minute is:", minuteHand);
-    typeOf(minuteHand);
     let strMinute = minuteHand;
-    //typeOf(strMinute);
     //test either at 0-9 min manually on the hour or mocha/chai
     numMinute = Number(minuteHand);
     typeOf(numMinute);
@@ -194,9 +189,6 @@ let findMinuteAngle = (minuteHand) => {
       strMinute = minuteHand.substring(1, 2);
       numMinute = Number(strMinute);
     }
-
-    console.log("Stringified minute is:", strMinute);
-    console.log("Numerical minute is:", numMinute);
 
     if (minuteHand === key) {
       console.log("Matching minute found for key: ", key);
@@ -207,7 +199,6 @@ let findMinuteAngle = (minuteHand) => {
       return;
     }
   })
-  typeOf(minuteAngle);
   return minuteAngle;
   console.log("exiting findMinuteAngle fxn.");
 }
@@ -238,9 +229,9 @@ let aroundTheClock = (hour, minuteHand) => {
   typeOf(hrAngle);
   typeOf(minAngle);
   //for (let i = 0; i < iterations; i++) {
-  caluclateTheta(hrAngle, minAngle);
+  return caluclateTheta(hrAngle, minAngle);
   //}
-  return matchingAngleArray;
+  //return matchingAngleArray;
 };
 
 //user inputs two timezones to determine comparative angles formed by the
