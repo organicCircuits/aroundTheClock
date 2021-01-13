@@ -227,37 +227,56 @@ let aroundTheClock = (hour, minuteHand) => {
   const minutesInHour = 2;
   const iterations = 1 + hoursInDay * minutesInHour;
   console.log("The number of iterations is: ", iterations);
+
   let arrayOfThetas = [];
 
-  for (let i = 0; i < iterations; i++) {
-    let hourCounter = Number(hour);
+  let adjustTime = () => {
+
+    let nHr = Number(hour);
+    let hourCounter = nHr;
     console.log("The hour counter is starting at:", hourCounter);
     typeOf(hourCounter);
-    let minuteDayCounter = Number(minuteHand);
+    let nMin = Number(minuteHand);
+    let minuteDayCounter = nMin;
     console.log("The minute day counter is starting at:", minuteDayCounter);
     typeOf(minuteDayCounter);
 
-    if (minuteDayCounter === 60) {
-      hourCounter++;
-      minuteDayCounter = 0;
-    }
+    for (let i = 0; i < iterations; i++) {
 
-    if (hourCounter > 12) {
-      hourCounter = 0;
-    }
+      if (minuteDayCounter === 60) {
+        hourCounter += 1;
+        minuteDayCounter = 0;
+      }
 
-    let hrAngle = findHourAngle(hour);
-    let minAngle = findMinuteAngle(minuteHand);
-    typeOf(hrAngle);
-    typeOf(minAngle);
-    //for (let i = 0; i < iterations; i++) {
-    let theta = caluclateTheta(hrAngle, minAngle);
-    let hoursAndMinutes = `${hour}:${minuteHand}`;
-    console.log("aroundTheClock loop time is:", hoursAndMinutes);
-    arrayOfThetas.push({time:minuteHand, theta: theta});
-    console.log(arrayOfThetas);
-    minuteDayCounter++;
+      if (hourCounter > 12) {
+        hourCounter = 0;
+      }
+
+      let strHourCounter = hourCounter.toString();
+      let strMinuteDayCounter = minuteDayCounter.toString();
+      let hrAngle = findHourAngle(strHourCounter);
+      console.log("current hour angle:", hrAngle);
+      let minAngle = findMinuteAngle(strMinuteDayCounter);
+      console.log("current minute angle:", minAngle);
+      typeOf(hrAngle);
+      typeOf(minAngle);
+      //for (let i = 0; i < iterations; i++) {
+      let theta = caluclateTheta(hrAngle, minAngle);
+      console.log("theta for iteration:", theta);
+      let hoursAndMinutes = `${hourCounter}:${minuteDayCounter}`;
+      console.log("aroundTheClock loop time is:", hoursAndMinutes);
+      arrayOfThetas.push({
+        time: hoursAndMinutes,
+        theta: theta
+      });
+      console.log(arrayOfThetas);
+      minuteDayCounter += 1;
+      console.log("current minute counter:", minuteDayCounter);
+      //adjustTime(hourCounter, minuteHand);
+    }
   }
+  adjustTime();
+  return arrayOfThetas;
 }
 
 // let adjustTime = () => {
