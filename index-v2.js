@@ -204,53 +204,16 @@ let findMinuteAngle = (minuteHand) => {
   console.log("exiting findMinuteAngle fxn.");
 }
 
-  let thetaMatch = (hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta) => {
-    let mergedThetas = [210, 216, 222, 216, 222, 216, 222, 228, 234 ];
+let thetaMatch = (hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta) => {
+    let mergedThetas = timeOneTheta.concat(timeTwoTheta);
 
-    // let mergedThetas = timeOneTheta.concat(timeTwoTheta);
-    //console.log("combined theta arrays:", mergedThetas);
-    // const thetaKeys = Object.keys(mergedThetas);
-    // console.log("merged theta keys:", thetaKeys);
-    // const thetaValues = Object.values(mergedThetas);
-    // console.log("merged theta values:", thetaValues);
-    //TODO if keeping as object, update variable name
-    //let matchingAngleArray = {};
-    const initialValue = 0;
-
-    // mergedThetas.push(12);
-    // mergedThetas.push(18);
-    // mergedThetas.push(138);
     console.log("raw merged theta array with pushed values:", mergedThetas);
-    //let objectThetas = Object.assign({}, mergedThetas);
-    //console.log("Object theta is:", objectThetas);
-    // const thetaKeys = Object.keys(mergedThetas);
-    // const thetaValues = Object.values(mergedThetas);
-    // console.log("The theta keys are:", thetaKeys);
-    // console.log("The theta values are:", thetaValues);
-    // typeOf(thetaKeys);
-    // typeOf(thetaValues);
 
-    // let getThetaValues = (thetaValues) => {
-    //   mergedThetas.forEach(value => {
-    //     //let a = Object.values(thetaValues);
-    //   // if (value === a) {
-    //   let returnedThetaValue = Object.values(thetaValues);
-    //   console.log("returned theta values are:", returnedThetaValue);
-    //   return returnedThetaValue;
-    // })};
-    //
-    // getThetaValues(thetaValues);
-
-    //let matchingThetas = () => {
       let matchingThetas = mergedThetas.map(thta => {
-      //thetaValue = Object.values(mergedThetas);
-      // return thetaValue;
       return {
         count: 1,
         thta: thta
-      }
-      console.log("THE VALUES FOR THETA ARRAY ARE:", thetaValues);
-    }).reduce((a,b) => {
+      }}).reduce((a,b) => {
       a[b.thta] = (a[b.thta] || 0) + b.count;
           console.log("current a:", a);
           return a;
@@ -258,79 +221,15 @@ let findMinuteAngle = (minuteHand) => {
     let matchingAngleArray = Object.keys(matchingThetas).filter((a) => matchingThetas[a] > 1);
     console.log("The matching thetas are: ", matchingAngleArray);
 
-    //matchingThetas();
-
-    // let matchingThetas = () => {
-    //   const thetaKeys = Object.keys(mergedThetas);
-    //   const thetaValues = Object.values(mergedThetas);
-    //   let thetaValue = 0;
-    //   console.log("The theta keys are:", thetaKeys);
-    //   console.log("The theta values are:", thetaValues);
-    //   mergedThetas.forEach(key => {
-    //   thetaValue = Object.values(mergedThetas);
-    //   console.log("THE VALUES FOR THETA ARRAY ARE:", thetaValues);
-    // }).reduce((a,b) => {
-    //   a[b.thetaValues] = (a[b.thetaValues] || 0) + b.count;
-    //       console.log("current a:", a);
-    //       return a;
-    // })};
-
-    //matchingThetas();
-
-    // let matchingThetas = mergedThetas.map(value => {
-    //   const thetaValues = Object.values(mergedThetas);
-    //   return {
-    //     theta: value
-    //   }}).reduce((a,b) => {
-    //     a[b.theta] = (a[b.theta] || 0) + b.count;
-    //     console.log("current a:", a);
-    //     return a;
-    //   });
-
-    //   if (key in mergedThetas) {
-    //     matchingAngleArray = Object.assign({}, mergedThetas[x]);
-    //   } else {
-    //     console.log("not sure what to put here yet.");
-    // }
-
-    //
-    // mergedThetas.forEach(key => {
-    //   if(key === thetaValues[key]){
-    //     const msgMatch = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand}'s time have the following matching angles: ${matchingAngleArray}`;
-    //     console.log(msgMatch);
-    //     matchingAngleArray.push(msgMatch);
-    //   }
-    // })
-
     lenMatchingArray = matchingAngleArray.length;
     if (lenMatchingArray === 0) {
       const msg404 = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand} do not have any matching angles....something went wrong.`;
       console.log(msg404);
     }
 
-    // const hourKeys = Object.keys(hourHandDegrees);
-    // const hourAngleKeys = Object.values(hourHandDegrees[1]);
-    // let hourAngle = 0;
-    // hourKeys.forEach(key => {
-    //   console.log("Entering findHourAngle fxn:");
-    //   if (hour === key) {
-    //     console.log("Matching hour found for key: ", key);
-    //     let hourAngleArray = Object.values(hourHandDegrees[hour]);
-    //     hourAngle = hourAngleArray[1];
-
-    // mergedThetas.filter(key => {
-    //   //let theeeta = thta[theta];
-    //   if () {
-    //     matchingAngleArray.push({time: timeOneTheta, theta: theta});
-    //   }
-    //   //theeeta[theta] = true;
-    //
-    // })
-
-  // console.log("The matching angle array is: ", matchingAngleArray);
-  // const msgMatch = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand}'s time have the following matching angles: ${matchingAngleArray}`;
-  // console.log(msgMatch);
-  return matchingAngleArray;
+  const timedMsg = `${hourOne}:${minuteHand} and ${hourTwo}:${minuteHand} have the following angles in common around the clock: ${matchingAngleArray}`;
+  console.log(timedMsg);
+  return timedMsg;
 }
 
 //used to return theta between the hour and minute hand for each minute in 24 hrs
@@ -408,9 +307,9 @@ let driver = (timezoneOne, timezoneTwo) => {
   let timeTwoTheta = aroundTheClock(hourTwo, minuteHand);
   // typeOf(timeOneTheta);
   // typeOf(timeTwoTheta);
-  thetaMatch(hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta);
-  console.log("The times with matching angles are: ", matchingAngleArray);
-  return matchingAngleArray;
+  let timed = thetaMatch(hourOne, hourTwo, minuteHand, timeOneTheta, timeTwoTheta);
+  console.log("The times with matching angles are: ", timed);
+  return timed;
 };
 
 driver("EST", "PST");
