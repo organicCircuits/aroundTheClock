@@ -66,7 +66,7 @@ let utcConversion = timezone => {
 
 //checks if the resulting conversion from utc resulted in zero or a negative
 //number. If so, it adds 11 or 12 to correspond to actual clock values
-let checkIfNegative = hour => {
+let checkIfNegative = (hour) => {
   if (hour == 0) {
     console.log("The normalized hour was zero:", hour);
     hour += 12;
@@ -196,8 +196,8 @@ let caluclateTheta = (hourOne, minuteHand) => {
     //  let findAllAngles = () => {
     //}
     //assignClockDegrees();
-    let miniuteTheta = assignClockDegrees().findMinuteAngle(minuteHand);
-    let hourTheta = assignClockDegrees().findHourOneAngle(hour);
+    let miniuteTheta = assignClockDegrees(findMinuteAngle(minuteHand));
+    let hourTheta = assignClockDegreesfindHourOneAngle(hourOne));
     //let hourTwoTheta = assignClockDegrees().findHourTwoAngle(hourTwo);
     //if (typeOf(minuteAngle) == number && typeOf(hourOneAngle) == number) {
 
@@ -239,8 +239,6 @@ let caluclateTheta = (hourOne, minuteHand) => {
     console.log(matchingAngleArray);
     return matchingAngleArray;
 }
-
-
 
 //returns all matching angles between the two timezones for a 24 hour period
 let aroundTheClock = (hour, minuteHand) => {
