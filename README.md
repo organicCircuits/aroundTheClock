@@ -1,4 +1,4 @@
-# aroundTheClock
-This is a small repository for the clock angle problem.
+# README
 
-Note: work is currently on the ar/threeSixty branch until complete.
+aroundTheClock is a JavaScript program that returns matching clock angles for the current UTC time.
+
